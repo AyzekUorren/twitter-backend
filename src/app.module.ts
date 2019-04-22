@@ -10,11 +10,19 @@ import { DatabaseModule } from './database/database.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { JwtStrategy } from './auth/jwt.strategy';
-
-const mongourl = process.env.DB_URL || `mongodb://test:qqqqqq1@ds229186.mlab.com:29186/twitter-backend`;
+import { ConfigService } from './config/config.service';
+import { ConfigModule } from './config/config.module';
 @Module({
   imports: [
-    MongooseModule.forRoot(mongourl, { useNewUrlParser: true }),
+    ConfigModule,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        useNewUrlParser: true,
+        uri: configService.get('MONGO_URL'),
+      }),
+      inject: [ConfigService],
+    }),
     UserModule,
     DatabaseModule,
     AuthModule,
