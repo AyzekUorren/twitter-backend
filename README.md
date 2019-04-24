@@ -1,3 +1,5 @@
+<h1 align="center" style="color:red">Twitter-Backend</h1>
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
@@ -28,7 +30,27 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Environment
+
+Before start, need setup **`NAME.env`**
+You can look at example: **`template.env`**
+
+*Default environment DEV.env*
+*You can change it in `Docker-compose.yml`*
+
+## Installation Docker
+
+```bash
+$ docker-compose up --force--recreate --build
+```
+After start app will available on `docker-machine` ip, at `port:3000`* by default, you can check ip with:
+```bash
+$ docker-machine ip default
+```
+
+## Installation localy
+
+*Dont forget set `NODE_ENV` and `API_PREFIX` if you want using this method*
 
 ```bash
 $ npm install
