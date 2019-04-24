@@ -1,4 +1,4 @@
-<h1 align="center" style="color:red">Twitter-Backend</h1>
+<h1 align="center">![#f03c15]Twitter-Backend</h1>
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
@@ -43,7 +43,7 @@ You can look at example: **`template.env`**
 ```bash
 $ docker-compose up --force--recreate --build
 ```
-After start app will available on `docker-machine` ip, at `port:3000`* by default, you can check ip with:
+After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
 ```bash
 $ docker-machine ip default
 ```
