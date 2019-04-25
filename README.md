@@ -41,7 +41,7 @@ You can look at example: **`template.env`**
 ## Installation Docker
 
 ```bash
-$ docker-compose up --force--recreate --build
+$ docker-compose up --force-recreate --build
 ```
 After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
 ```bash
