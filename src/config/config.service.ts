@@ -10,7 +10,8 @@ export class ConfigService {
   }
 
   get(key: string): string {
-    Logger.debug(`GET -> ${key}: ${this.envConfig[key]}`);
-    return this.envConfig[key];
+    var keyValue = process.env[key] || this.envConfig[key];
+    Logger.debug(`GET -> ${key}: ${keyValue}`);
+    return keyValue;
   }
 }

@@ -29,6 +29,7 @@ services:
     environment:
       NODE_ENV: DEV
       API_PREFIX: v1
+      MONGO_URL: mongodb://mongo:27017/twitter-backend
     networks: 
       - backend
 

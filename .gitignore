@@ -1,3 +1,14 @@
+#NodeJS
 node_modules
+
+##App dist
 dist
+
+#Env file
 *.env
+
+#MacOS
+.DS_Store
+
+#Database data
+data
