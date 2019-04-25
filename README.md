@@ -38,6 +38,8 @@ You can look at example: **`template.env`**
 *Default environment DEV.env*
 *You can change it in `Docker-compose.yml`*
 
+Alternatively use `docker-compose.yml` -> **environment** section
+
 ## Installation Docker
 
 Create containers
