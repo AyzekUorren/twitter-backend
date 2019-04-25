@@ -44,7 +44,7 @@ Create containers
 ```bash
 $ docker-compose up
 ```
-Dont forget, read additional comands `docker-compose` in the **Running the app -> [Docker section](https://github.com/AyzekUorren/twitter-backend#running-the-app)**
+Dont forget, read additional comands `docker-compose` in the **Running the app -> [Docker section](### Docker)**
 
 After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
 ```bash
