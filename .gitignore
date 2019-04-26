@@ -1,3 +1,11 @@
+#packeges
 node_modules
+
+#app build
 dist
+
+#env
 *.env
+
+#database
+data

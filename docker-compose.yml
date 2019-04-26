@@ -10,9 +10,6 @@ services:
     volumes:
       - ./data:/data/db
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: admin
     networks: 
       - backend
       
@@ -29,6 +26,7 @@ services:
     environment:
       NODE_ENV: DEV
       API_PREFIX: v1
+      MONGO_URL: mongodb://mongo/twitter-backend
     networks: 
       - backend
 
