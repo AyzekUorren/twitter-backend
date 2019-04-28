@@ -1,4 +1,4 @@
-import { MigrationService } from './migration.service';
+import { MigrationService } from './migrations.service';
 import { CreateMigrationDto } from './dto/create-migration.dto';
 import { Migration } from './interfaces/migration.interface';
 import { Controller, Body, Post, Get } from '@nestjs/common';
