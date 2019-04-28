@@ -1,7 +1,13 @@
 <h1 align="center">Twitter-Backend</h1>
 
 ## Environment
+### Environment priority
+<ol>
+  <li>(machine) process.env</li>
+  <li>(file) Name.env</li>
+</ol>
 
+### Environment settings
 Before start, need setup **`NAME.env`**
 You can look at example: **`template.env`**
 
