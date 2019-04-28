@@ -3,7 +3,7 @@ import { CreateMigrationDto } from './dto/create-migration.dto';
 import { Migration } from './interfaces/migration.interface';
 import { Controller, Body, Post, Get } from '@nestjs/common';
 
-@Controller('migration')
+@Controller('migrations')
 export class MigrationController {
   constructor(private readonly migrationService: MigrationService) {}
 

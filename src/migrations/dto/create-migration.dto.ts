@@ -1,5 +1,12 @@
+import { ApiModelProperty } from '@nestjs/swagger';
+
 export class CreateMigrationDto {
+    @ApiModelProperty()
     readonly count: number;
-    readonly last: Date;
+
+    @ApiModelProperty()
+    readonly last: string;
+
+    @ApiModelProperty()
     readonly currentVersion: string;
 }
