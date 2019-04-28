@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 
@@ -6,7 +7,11 @@ export class ConfigService {
 
   constructor(filePath: string) {
     if(filePath && !filePath.includes('undefined')) {
-      this.envConfig = dotenv.parse(fs.readFileSync(filePath)) || {};
+      try {
+        this.envConfig = dotenv.parse(fs.readFileSync(filePath));
+      } catch (e) {
+        this.envConfig = {};
+      }
     }
   }
 
@@ -16,6 +21,7 @@ export class ConfigService {
   }
 
   protected GetConfigValue(key: string): string {
+    Logger.debug(`GET -> ${key}`);
     return process.env && process.env[key] ? process.env[key]
     : this.envConfig && this.envConfig[key] ? this.envConfig[key]
     : '';
