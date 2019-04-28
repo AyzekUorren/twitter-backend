@@ -1,3 +1,83 @@
+<h1 align="center">Twitter-Backend</h1>
+
+## Environment
+
+Before start, need setup **`NAME.env`**
+You can look at example: **`template.env`**
+
+*Default environment DEV.env*
+*You can change it in `Docker-compose.yml`*
+
+Alternatively use `docker-compose.yml` -> **environment** section
+
+## Installation Docker
+
+Create containers
+```bash
+$ docker-compose up
+```
+Dont forget, read additional comands `docker-compose` in the **Running the app -> [Docker section](#docker)**
+
+After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
+```bash
+$ docker-machine ip default
+```
+If machine not available get ip from container with:
+```bash
+$ docker ps
+```
+
+## Installation localy
+
+*Dont forget set `NODE_ENV` and `API_PREFIX` if you want using this method*
+
+```bash
+$ npm install
+```
+
+## Running the app
+
+### Local with npm
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+### Docker
+
+```bash
+# start
+$ docker-compose start
+
+# stop
+$ docker-compose stop
+
+# remove containers
+$ docker-compose down
+
+# rebuild with new files
+$ docker-compose up --force-recreate --build
+```
+
+## Test
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
@@ -28,37 +108,6 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
 
 ## Support
 
