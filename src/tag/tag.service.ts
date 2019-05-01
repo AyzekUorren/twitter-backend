@@ -23,4 +23,8 @@ export class TagService {
     .find()
     .exec();
   }
+
+  async findById(tagId: string): Promise<Tag> {
+    return await this.tagModel.findById(tagId).exec();
+  }
 }

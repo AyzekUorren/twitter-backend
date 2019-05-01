@@ -9,5 +9,6 @@ import { DatabaseModule } from '../database/database.module';
   imports: [DatabaseModule, UserModule],
   controllers: [TagController],
   providers: [TagService, ...TagProviders],
+  exports: [TagService],
 })
 export class TagModule {}

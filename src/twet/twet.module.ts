@@ -1,13 +1,19 @@
+import { TagModule } from './../tag/tag.module';
 import { UserModule } from './../user/user.module';
 import { TwetService } from './twet.service';
 import { TwetController } from './twet.controller';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 import { TwetProviders } from './twet.providers';
 
 @Module({
-  imports: [DatabaseModule, UserModule],
+  imports: [
+    DatabaseModule,
+    forwardRef(() => UserModule),
+    forwardRef(() => TagModule)
+  ],
   controllers: [TwetController],
   providers: [TwetService, ...TwetProviders],
+  exports: [TwetService],
 })
 export class TwetModule {}

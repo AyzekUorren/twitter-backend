@@ -1,6 +1,7 @@
+import { TwetService } from './../twet/twet.service';
 import { UserTwetDto } from './dto/userTwet.dto';
 import { UserTagDto } from './dto/userTag.dto';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
@@ -8,12 +9,26 @@ import { MONGOOSE_UPDATE_OPTIONS } from 'src/constants';
 
 @Injectable()
 export class UserService {
-  constructor(@Inject('USER_MODEL') private readonly userModel: Model<User>) {}
+  constructor(
+    @Inject('USER_MODEL') private readonly userModel: Model<User>,
+    private readonly twetService: TwetService,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createdUser = new this.userModel(createUserDto);
 
     return await createdUser.save();
+  }
+
+  async remove(userId: string) {
+    const user = await this.userModel.findByIdAndRemove(userId).exec();
+    if (!user || !user.twets) {
+      throw new BadRequestException();
+    }
+
+    for await (const twetId of user.twets) {
+      this.twetService.remove(twetId);
+    }
   }
 
   async findAll(): Promise<User[]> {

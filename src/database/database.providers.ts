@@ -7,7 +7,10 @@ export const databaseProviders = [
         provide: 'DATABASE_CONNECTION',
         imports: [ConfigModule],
         useFactory: async (config: ConfigService): Promise<typeof mongoose> =>
-            await mongoose.connect(config.get('MONGO_URL'), { useNewUrlParser: true }),
+            await mongoose.connect(config.get('MONGO_URL'), {
+                useNewUrlParser: true,
+                useFindAndModify: false,
+            }),
             inject: [ConfigService],
     },
 ];
