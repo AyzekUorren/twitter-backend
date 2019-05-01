@@ -1,8 +1,11 @@
+import { UserTwetDto } from './../user/dto/userTwet.dto';
+import { TwetTagDTO } from './dto/twetTag.dto';
 import { UserService } from './../user/user.service';
 import { CreateTwettDto } from './dto/create-twet.dto';
 import { Twet } from './interfaces/twet.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
+import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
 
 @Injectable()
 export class TwetService {
@@ -14,29 +17,39 @@ export class TwetService {
   async create(createTwettDto: CreateTwettDto): Promise<Twet> {
     const createdTwet = new this.twetModel(createTwettDto);
     createdTwet.save();
-    this.userService.addTwet(createTwettDto.author, createdTwet._id);
+    this.userService.addTwet({
+      userId: createTwettDto.author,
+      twetId: createdTwet._id,
+    });
     return await createdTwet;
   }
 
   async findAll(): Promise<Twet[]> {
     return await this.twetModel
     .find()
-    .populate('author')
     .populate('tags')
+    .populate('twets')
     .exec();
   }
 
-  async addTag(twetId: string, tagId: string): Promise<Twet> {
-    const currentTweet = await this.twetModel.findById(twetId).exec();
-
-    currentTweet.tags.push(tagId);
-    return await currentTweet.save();
+  async addTag(twetTagDto: TwetTagDTO): Promise<Twet> {
+    return await this.twetModel.findByIdAndUpdate(
+      twetTagDto.twetId,
+      { $addToSet: {tags: twetTagDto.tagId}},
+      MONGOOSE_UPDATE_OPTIONS,
+    ).exec();
   }
 
-  async removeTag(twetId: string, tagId: string): Promise<Twet> {
-    const currentTweet = await this.twetModel.findById(twetId).exec();
+  async remove(twetId: string) {
+    const twet = await this.twetModel.findByIdAndRemove(twetId).exec();
+    await this.userService.removeTwet({userId: twet.author, twetId: twet.id});
+  }
 
-    currentTweet.tags.filter((element) => element !== tagId);
-    return await currentTweet.save();
+  async removeTag(twetTagDto: TwetTagDTO): Promise<Twet> {
+    return await this.twetModel.findByIdAndUpdate(
+      twetTagDto.twetId,
+      { $pull: {tags: twetTagDto.tagId}},
+      MONGOOSE_UPDATE_OPTIONS,
+    ).exec();
   }
 }

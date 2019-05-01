@@ -14,14 +14,13 @@ export class TagService {
   async create(createTagDto: CreateTagDto): Promise<Tag> {
     const createdTag = new this.tagModel(createTagDto);
     createdTag.save();
-    this.userService.addTag(createTagDto.author, createdTag._id);
+    this.userService.addTag({userId: createTagDto.author, tagId: createdTag.id});
     return await createdTag;
   }
 
   async findAll(): Promise<Tag[]> {
     return await this.tagModel
     .find()
-    .populate('author')
     .exec();
   }
 }

@@ -1,7 +1,10 @@
+import { UserTwetDto } from './dto/userTwet.dto';
+import { UserTagDto } from './dto/userTag.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
+import { MONGOOSE_UPDATE_OPTIONS } from 'src/constants';
 
 @Injectable()
 export class UserService {
@@ -16,26 +19,45 @@ export class UserService {
   async findAll(): Promise<User[]> {
     return await this.userModel
     .find()
-    .populate('twets')
-    .populate('tags')
     .exec();
   }
 
   async findById(userId: string): Promise<User> {
-    return await this.userModel.findById(userId).exec();
+    return await this.userModel
+    .findById(userId)
+    .populate('twets tags')
+    .exec();
   }
 
-  async addTwet(userId: string, twetId: string): Promise<User> {
-    const currentUser = await this.userModel.findById(userId).exec();
-
-    currentUser.twets.push(twetId);
-    return await currentUser.save();
+  async addTwet(userTwetDto: UserTwetDto): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(
+      userTwetDto.userId,
+      { $addToSet: {twets: userTwetDto.twetId}},
+      MONGOOSE_UPDATE_OPTIONS,
+    ).exec();
   }
 
-  async addTag(userId: string, tagId: string): Promise<User> {
-    const currentUser = await this.userModel.findById(userId).exec();
+  async removeTwet(userTwetDto: UserTwetDto): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(
+      userTwetDto.userId,
+      { $pull: {twets: userTwetDto.twetId}},
+      MONGOOSE_UPDATE_OPTIONS,
+    ).exec();
+  }
 
-    currentUser.tags.push(tagId);
-    return await currentUser.save();
+  async addTag(userTagdto: UserTagDto): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(
+      userTagdto.userId,
+      { $addToSet: {tags: userTagdto.tagId}},
+      MONGOOSE_UPDATE_OPTIONS,
+    ).exec();
+  }
+
+  async removeTag(userTagDto: UserTagDto): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(
+      userTagDto.userId,
+      { $pull: {tags: userTagDto.tagId}},
+      MONGOOSE_UPDATE_OPTIONS,
+    ).exec();
   }
 }
