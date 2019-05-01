@@ -4,7 +4,7 @@ import { TwetService } from './twet.service';
 import { Controller, Get, Post, Body, Delete, Param, Put, HttpStatus, forwardRef, Inject } from '@nestjs/common';
 import { Twet } from './interfaces/twet.interface';
 import { ApiUseTags, ApiResponse } from '@nestjs/swagger';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 
 @Controller('twet')
 @ApiUseTags('twet')

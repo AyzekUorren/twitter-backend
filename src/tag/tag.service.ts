@@ -1,6 +1,5 @@
 import { CreateTagDto } from './dto/create-tag.dto';
 import { Tag } from './interfaces/tag.interface';
-import { UserService } from '../user/user.service';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 
