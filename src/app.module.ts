@@ -10,7 +10,6 @@ import { ConfigModule } from './config/config.module';
     ConfigModule,
     DatabaseModule,
     UserModule,
-    MigrationModule,
   ],
   controllers: [
     AppController,

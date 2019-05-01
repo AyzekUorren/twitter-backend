@@ -17,8 +17,6 @@ async function bootstrap() {
     });
   }
 
-  app.setGlobalPrefix(process.env.API_PREFIX || 'dev');
-
   const options = new DocumentBuilder()
     .setTitle('Twitter backend API')
     .setDescription('Twitter-app backend')
@@ -29,6 +27,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
 
+  app.setGlobalPrefix(process.env.API_PREFIX || 'dev');
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(port, () => {
