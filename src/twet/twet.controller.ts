@@ -1,5 +1,5 @@
 import { TwetTagDTO } from './dto/twetTag.dto';
-import { CreateTwettDto } from './dto/create-twet.dto';
+import { CreateTwetDto } from './dto/create-twet.dto';
 import { TwetService } from './twet.service';
 import { Controller, Get, Post, Body, Delete, Param, Put, HttpStatus, forwardRef, Inject } from '@nestjs/common';
 import { Twet } from './interfaces/twet.interface';
@@ -16,11 +16,11 @@ export class TwetController {
   ) {}
 
   @Post()
-  async create(@Body() createTwettDto: CreateTwettDto) {
-    const createdTwet = await this.twetService.create(createTwettDto);
+  async create(@Body() createTwetDto: CreateTwetDto) {
+    const createdTwet = await this.twetService.create(createTwetDto);
 
     await this.userService.addTwet({
-      userId: createTwettDto.author,
+      userId: createTwetDto.author,
       twetId: createdTwet.id,
     });
 
@@ -31,14 +31,14 @@ export class TwetController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request'})
   @ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet'})
   async addTag(@Body() twetTagDto: TwetTagDTO): Promise<Twet> {
-    return this.twetService.addTag(twetTagDto);
+    return await this.twetService.addTag(twetTagDto);
   }
 
   @Delete('removeTag')
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request'})
   @ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet'})
   async removeTag(@Body() twetTagDto: TwetTagDTO): Promise<Twet> {
-    return this.twetService.removeTag(twetTagDto);
+    return await this.twetService.removeTag(twetTagDto);
   }
 
   @Delete(':id')
@@ -55,6 +55,6 @@ export class TwetController {
 
   @Get()
   async findAll(): Promise<Twet[]> {
-    return this.twetService.findAll();
+    return await this.twetService.findAll();
   }
 }

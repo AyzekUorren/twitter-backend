@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, HttpStatus } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { User } from './interfaces/user.interface';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiResponse } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiUseTags('user')
@@ -11,20 +11,21 @@ export class UserController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    return await this.userService.create(createUserDto);
   }
 
   @Get()
   async findAll(): Promise<User[]> {
-    return this.userService.findAll();
+    return await this.userService.findAll();
   }
 
   @Get(':id')
   async findById(@Param('id') userId: string): Promise<User> {
-    return this.userService.findById(userId);
+    return await this.userService.findById(userId);
   }
 
   @Delete(':id')
+  @ApiResponse({ status: HttpStatus.OK, description: 'User and all related objects are deleted.'})
   async remove(@Param('id') userId: string) {
     await this.userService.remove(userId);
   }

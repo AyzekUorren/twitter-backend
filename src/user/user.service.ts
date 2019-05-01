@@ -1,7 +1,8 @@
+import { TagService } from './../tag/tag.service';
 import { TwetService } from './../twet/twet.service';
 import { UserTwetDto } from './dto/userTwet.dto';
 import { UserTagDto } from './dto/userTag.dto';
-import { Inject, Injectable, forwardRef, BadRequestException } from '@nestjs/common';
+import { Inject, Injectable, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
@@ -12,6 +13,7 @@ export class UserService {
   constructor(
     @Inject('USER_MODEL') private readonly userModel: Model<User>,
     private readonly twetService: TwetService,
+    private readonly tagService: TagService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -28,6 +30,10 @@ export class UserService {
 
     for await (const twetId of user.twets) {
       this.twetService.remove(twetId);
+    }
+
+    for await (const tagId of user.tags) {
+      this.tagService.remove(tagId);
     }
   }
 

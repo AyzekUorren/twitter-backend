@@ -1,5 +1,5 @@
 import { TwetTagDTO } from './dto/twetTag.dto';
-import { CreateTwettDto } from './dto/create-twet.dto';
+import { CreateTwetDto } from './dto/create-twet.dto';
 import { Twet } from './interfaces/twet.interface';
 import { Inject, Injectable, forwardRef, Logger, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
@@ -14,8 +14,8 @@ export class TwetService {
     private readonly tagService: TagService,
   ) {}
 
-  async create(createTwettDto: CreateTwettDto): Promise<Twet> {
-    const createdTwet = new this.twetModel(createTwettDto);
+  async create(createTwetDto: CreateTwetDto): Promise<Twet> {
+    const createdTwet = new this.twetModel(createTwetDto);
     await createdTwet.save();
     return createdTwet;
   }

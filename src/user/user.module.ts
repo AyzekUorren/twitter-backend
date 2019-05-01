@@ -1,3 +1,4 @@
+import { TagModule } from './../tag/tag.module';
 import { TwetModule } from './../twet/twet.module';
 import { Module, forwardRef } from '@nestjs/common';
 import { UserController } from './user.controller';
@@ -6,7 +7,11 @@ import { userProviders } from './user.providers';
 import { DatabaseModule } from '../database/database.module';
 
 @Module({
-  imports: [DatabaseModule, forwardRef(() => TwetModule)],
+  imports: [
+    DatabaseModule,
+    forwardRef(() => TwetModule),
+    forwardRef(() => TagModule),
+  ],
   controllers: [UserController],
   providers: [UserService, ...userProviders],
   exports: [UserService],

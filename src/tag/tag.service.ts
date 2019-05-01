@@ -8,14 +8,11 @@ import { Model } from 'mongoose';
 export class TagService {
   constructor(
     @Inject('TAG_MODEL') private readonly tagModel: Model<Tag>,
-    private readonly userService: UserService,
   ) {}
 
   async create(createTagDto: CreateTagDto): Promise<Tag> {
     const createdTag = new this.tagModel(createTagDto);
-    createdTag.save();
-    this.userService.addTag({userId: createTagDto.author, tagId: createdTag.id});
-    return await createdTag;
+    return await createdTag.save();
   }
 
   async findAll(): Promise<Tag[]> {
@@ -26,5 +23,9 @@ export class TagService {
 
   async findById(tagId: string): Promise<Tag> {
     return await this.tagModel.findById(tagId).exec();
+  }
+
+  async remove(tagId: string): Promise<Tag> {
+    return await this.tagModel.findByIdAndRemove(tagId).exec();
   }
 }
