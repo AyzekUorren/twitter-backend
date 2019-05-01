@@ -1,30 +1,66 @@
 import { ApiModelProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsMongoId, IsArray } from 'class-validator';
 
 export class CreateUserDto {
-  @ApiModelProperty()
+  @IsNotEmpty()
+  @ApiModelProperty({
+    required: true,
+    type: String,
+    example: 'example.com/image.jpg',
+  })
   readonly link: string;
 
-  @ApiModelProperty()
+  @ApiModelProperty({
+    required: true,
+    type: String,
+    example: new Date().toString(),
+  })
   readonly createdAt: string;
 
-  @ApiModelProperty()
+  @ApiModelProperty({
+    required: true,
+    type: String,
+    example: new Date().toString(),
+  })
   readonly updatedAt: string;
 
-  @ApiModelProperty()
+  @IsNotEmpty()
+  @ApiModelProperty({
+    required: true,
+    type: String,
+    example: 'John',
+  })
   readonly firstName: string;
 
-  @ApiModelProperty()
+  @ApiModelProperty({
+    required: false,
+    type: String,
+    example: 'Jason',
+  })
   readonly middleName: string;
 
-  @ApiModelProperty()
+  @ApiModelProperty({
+    required: false,
+    type: String,
+    example: 'Doe',
+  })
   readonly lastName: string;
 
-  @ApiModelProperty()
+  @IsNotEmpty()
+  @ApiModelProperty({
+    required: true,
+    type: String,
+    example: 'password12345',
+  })
   readonly password: string;
 
-  @ApiModelProperty()
+  @IsEmail()
+  @ApiModelProperty({
+    required: true,
+    type: String,
+    example: 'example@mail.com',
+  })
   readonly email: string;
 
-  @ApiModelProperty()
   readonly twets: string[];
 }
