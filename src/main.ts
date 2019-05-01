@@ -32,13 +32,10 @@ async function bootstrap() {
   app.setGlobalPrefix(process.env.API_PREFIX || 'dev');
   app.useGlobalPipes(new ValidationPipe());
 
-  if (process.env.NODE_ENV !== 'production') {
-    await app.listen(port, () => {
+  await app.listen(port, () => {
+    if (process.env.NODE_ENV !== 'production') {
       Logger.log(`-> Listening on	\x1b[34m http://localhost:${ port }/docs\x1b[0m`);
-    });
-  } else {
-    await app.listen();
-  }
-  
+    }
+  });
 }
 bootstrap();
