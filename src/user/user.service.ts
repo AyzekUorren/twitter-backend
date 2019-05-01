@@ -13,6 +13,16 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find().exec();
+    return await this.userModel.find().populate('twets').exec();
+  }
+
+  async findById(userId: string): Promise<User> {
+    return await this.userModel.findById(userId).exec();
+  }
+
+  async addTwet(userId: string, twetId: string): Promise<User> {
+    const currentUser = await this.userModel.findById(userId).exec();
+    currentUser.twets.push(twetId)
+    return await currentUser.save();
   }
 }

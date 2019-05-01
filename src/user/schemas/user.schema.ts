@@ -11,6 +11,6 @@ export const UserSchema = new mongoose.Schema({
   email: String,
   twets: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Tweet',
+    ref: 'Twet',
   }],
 });

@@ -21,7 +21,8 @@ async function bootstrap() {
     .setTitle('Twitter backend API')
     .setDescription('Twitter-app backend')
     .setVersion('1.0')
-    .addTag('twitter')
+    .addTag('user', 'User model endpoints')
+    .addTag('twet', 'Twett model endpoints')
     .setBasePath(process.env.API_PREFIX || 'dev')
     .build();
   const document = SwaggerModule.createDocument(app, options);
