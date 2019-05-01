@@ -9,11 +9,16 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createdUser = new this.userModel(createUserDto);
+
     return await createdUser.save();
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find().populate('twets').exec();
+    return await this.userModel
+    .find()
+    .populate('twets')
+    .populate('tags')
+    .exec();
   }
 
   async findById(userId: string): Promise<User> {
@@ -22,7 +27,15 @@ export class UserService {
 
   async addTwet(userId: string, twetId: string): Promise<User> {
     const currentUser = await this.userModel.findById(userId).exec();
-    currentUser.twets.push(twetId)
+
+    currentUser.twets.push(twetId);
+    return await currentUser.save();
+  }
+
+  async addTag(userId: string, tagId: string): Promise<User> {
+    const currentUser = await this.userModel.findById(userId).exec();
+
+    currentUser.tags.push(tagId);
     return await currentUser.save();
   }
 }

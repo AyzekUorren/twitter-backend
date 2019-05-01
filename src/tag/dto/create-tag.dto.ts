@@ -1,7 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString, IsMongoId } from 'class-validator';
 
-export class CreateTwettDto {
+export class CreateTagDto {
     @ApiModelProperty({
         required: true,
         type: String,
@@ -20,28 +20,17 @@ export class CreateTwettDto {
     @ApiModelProperty({
         required: true,
         type: String,
-        example: 'Twett Name',
+        example: 'Tag Name',
     })
     readonly name: string;
 
     @IsString()
     @ApiModelProperty({
-        required: false,
-        type: String,
-        default: '',
-        example: 'site.com/image.jpg',
-    })
-    readonly link: string;
-
-    @IsString()
-    @ApiModelProperty({
         required: true,
         type: String,
-        example: 'Twett comment.',
+        example: 'This tag is used as an example.',
     })
-    readonly content: string;
-
-    readonly tags: string[];
+    readonly description: string;
 
     @IsMongoId()
     @ApiModelProperty({

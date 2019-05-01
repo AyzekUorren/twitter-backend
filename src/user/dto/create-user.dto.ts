@@ -63,4 +63,6 @@ export class CreateUserDto {
   readonly email: string;
 
   readonly twets: string[];
+
+  readonly tags: string[];
 }

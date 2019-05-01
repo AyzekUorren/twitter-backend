@@ -10,4 +10,5 @@ export interface User extends Document {
   readonly password: string;
   readonly email: string;
   readonly twets: string[];
+  readonly tags: string[];
 }

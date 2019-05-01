@@ -19,6 +19,24 @@ export class TwetService {
   }
 
   async findAll(): Promise<Twet[]> {
-    return await this.twetModel.find().populate('author').exec();
+    return await this.twetModel
+    .find()
+    .populate('author')
+    .populate('tags')
+    .exec();
+  }
+
+  async addTag(twetId: string, tagId: string): Promise<Twet> {
+    const currentTweet = await this.twetModel.findById(twetId).exec();
+
+    currentTweet.tags.push(tagId);
+    return await currentTweet.save();
+  }
+
+  async removeTag(twetId: string, tagId: string): Promise<Twet> {
+    const currentTweet = await this.twetModel.findById(twetId).exec();
+
+    currentTweet.tags.filter((element) => element !== tagId);
+    return await currentTweet.save();
   }
 }

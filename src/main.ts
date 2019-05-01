@@ -23,6 +23,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('user', 'User model endpoints')
     .addTag('twet', 'Twett model endpoints')
+    .addTag('tag', 'Tag model endpoints')
     .setBasePath(process.env.API_PREFIX || 'dev')
     .build();
   const document = SwaggerModule.createDocument(app, options);

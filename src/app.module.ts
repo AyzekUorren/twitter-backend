@@ -1,3 +1,4 @@
+import { TagModule } from './tag/tag.module';
 import { TwetModule } from './twet/twet.module';
 import { MigrationModule } from './migrations/migrations.module';
 import { UserModule } from './user/user.module';
@@ -12,6 +13,7 @@ import { ConfigModule } from './config/config.module';
     DatabaseModule,
     UserModule,
     TwetModule,
+    TagModule,
   ],
   controllers: [
     AppController,
