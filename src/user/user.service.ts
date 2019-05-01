@@ -6,7 +6,7 @@ import { Inject, Injectable, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
-import { MONGOOSE_UPDATE_OPTIONS } from 'src/constants';
+import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
 
 @Injectable()
 export class UserService {

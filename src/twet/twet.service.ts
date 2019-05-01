@@ -4,7 +4,7 @@ import { Twet } from './interfaces/twet.interface';
 import { Inject, Injectable, forwardRef, Logger, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
-import { TagService } from 'src/tag/tag.service';
+import { TagService } from '../tag/tag.service';
 
 @Injectable()
 export class TwetService {
