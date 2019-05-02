@@ -1,7 +1,7 @@
 import { TagService } from './../tag/tag.service';
 import { TwetService } from './../twet/twet.service';
-import { UserTwetDto } from './dto/userTwet.dto';
-import { UserTagDto } from './dto/userTag.dto';
+import { UserTwetDTO } from '../main/dto/user-twet.dto';
+import { UserTagDTO } from '../main/dto/user-tag.dto';
 import { Inject, Injectable, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -50,7 +50,7 @@ export class UserService {
     .exec();
   }
 
-  async addTwet(userTwetDto: UserTwetDto): Promise<User> {
+  async addTwet(userTwetDto: UserTwetDTO): Promise<User> {
     return await this.userModel.findByIdAndUpdate(
       userTwetDto.userId,
       { $addToSet: {twets: userTwetDto.twetId}},
@@ -58,7 +58,7 @@ export class UserService {
     ).exec();
   }
 
-  async removeTwet(userTwetDto: UserTwetDto): Promise<User> {
+  async removeTwet(userTwetDto: UserTwetDTO): Promise<User> {
     return await this.userModel.findByIdAndUpdate(
       userTwetDto.userId,
       { $pull: {twets: userTwetDto.twetId}},
@@ -66,7 +66,7 @@ export class UserService {
     ).exec();
   }
 
-  async addTag(userTagdto: UserTagDto): Promise<User> {
+  async addTag(userTagdto: UserTagDTO): Promise<User> {
     return await this.userModel.findByIdAndUpdate(
       userTagdto.userId,
       { $addToSet: {tags: userTagdto.tagId}},
@@ -74,7 +74,7 @@ export class UserService {
     ).exec();
   }
 
-  async removeTag(userTagDto: UserTagDto): Promise<User> {
+  async removeTag(userTagDto: UserTagDTO): Promise<User> {
     return await this.userModel.findByIdAndUpdate(
       userTagDto.userId,
       { $pull: {tags: userTagDto.tagId}},

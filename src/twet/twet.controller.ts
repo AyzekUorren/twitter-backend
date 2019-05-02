@@ -1,4 +1,4 @@
-import { TwetTagDTO } from './dto/twetTag.dto';
+import { TwetTagDTO } from '../main/dto/twet-tag.dto';
 import { CreateTwetDto } from './dto/create-twet.dto';
 import { TwetService } from './twet.service';
 import { Controller, Get, Post, Body, Delete, Param, Put, HttpStatus, forwardRef, Inject } from '@nestjs/common';

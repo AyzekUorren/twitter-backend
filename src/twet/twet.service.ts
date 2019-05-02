@@ -1,4 +1,4 @@
-import { TwetTagDTO } from './dto/twetTag.dto';
+import { TwetTagDTO } from '../main/dto/twet-tag.dto';
 import { CreateTwetDto } from './dto/create-twet.dto';
 import { Twet } from './interfaces/twet.interface';
 import { Inject, Injectable, forwardRef, Logger, BadRequestException } from '@nestjs/common';
