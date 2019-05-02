@@ -16,11 +16,12 @@ services:
       
   twitter:
     container_name: twitter-backend
-    image: alpine
+    image: twitter-backend
+    volumes:
+      - .:/usr/src/app
     build: .
     ports:
-    - '3000:3000'
-    restart: always
+      - '3000:3000'
     links:
       - mongo
     environment:
