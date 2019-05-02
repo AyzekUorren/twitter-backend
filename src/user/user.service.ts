@@ -1,3 +1,5 @@
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateTagDto } from './../tag/dto/update-tag.dto';
 import { TagService } from './../tag/tag.service';
 import { TwetService } from './../twet/twet.service';
 import { UserTwetDTO } from '../main/dto/user-twet.dto';
@@ -20,6 +22,25 @@ export class UserService {
 		const createdUser = new this.userModel(this.updateDate(createUserDto));
 
 		return await createdUser.save();
+	}
+
+	async update(userId: string, userDto: UpdateTagDto): Promise<User> {
+		const user = await this.userModel.findById(userId).exec();
+		if (!user) {
+			Logger.error(`User->remove: user:${userId} not found`);
+			throw new BadRequestException();
+		}
+
+		userDto.updatedAt = new Date().toString();
+		return await this.userModel
+			.findOneAndUpdate(
+				{
+					_id: userId
+				},
+				userDto,
+				MONGOOSE_UPDATE_OPTIONS
+			)
+			.exec();
 	}
 
 	async remove(userId: string) {
@@ -130,14 +151,14 @@ export class UserService {
 			.exec();
 	}
 
-	protected updateDate(createUserDto: CreateUserDto | User, isCreated = false): CreateUserDto | User {
+	protected updateDate(userDto: CreateUserDto | User, isCreated = false): CreateUserDto | User {
 		const currentDateString = new Date().toString();
 
-		createUserDto.updatedAt = currentDateString;
-		if (isCreated && createUserDto instanceof CreateUserDto) {
-			createUserDto.createdAt = currentDateString;
+		userDto.updatedAt = currentDateString;
+		if (isCreated && userDto instanceof CreateUserDto) {
+			userDto.createdAt = currentDateString;
 		}
 
-		return createUserDto;
+		return userDto;
 	}
 }
