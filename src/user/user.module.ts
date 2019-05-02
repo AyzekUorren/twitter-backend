@@ -7,13 +7,9 @@ import { userProviders } from './user.providers';
 import { DatabaseModule } from '../database/database.module';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    forwardRef(() => TwetModule),
-    forwardRef(() => TagModule),
-  ],
-  controllers: [UserController],
-  providers: [UserService, ...userProviders],
-  exports: [UserService],
+	imports: [ DatabaseModule, forwardRef(() => TwetModule), forwardRef(() => TagModule) ],
+	controllers: [ UserController ],
+	providers: [ UserService, ...userProviders ],
+	exports: [ UserService ]
 })
 export class UserModule {}

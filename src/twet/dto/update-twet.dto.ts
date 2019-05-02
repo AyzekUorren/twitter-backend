@@ -1,18 +1,19 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsMongoId, IsEmpty } from 'class-validator';
+import { IsString, IsMongoId, IsEmpty, IsOptional } from 'class-validator';
 
-export class CreateTwetDto {
-	@IsEmpty() createdAt: string;
+export class UpdateTwetDto {
 	@IsEmpty() updatedAt: string;
 
+	@IsOptional()
 	@IsString()
 	@ApiModelProperty({
-		required: true,
+		required: false,
 		type: String,
 		example: 'Twett Name'
 	})
 	readonly name: string;
 
+	@IsOptional()
 	@IsString()
 	@ApiModelProperty({
 		required: false,
@@ -22,21 +23,12 @@ export class CreateTwetDto {
 	})
 	readonly link: string;
 
+	@IsOptional()
 	@IsString()
 	@ApiModelProperty({
-		required: true,
+		required: false,
 		type: String,
 		example: 'Twett comment.'
 	})
 	readonly content: string;
-
-	readonly tags: string[];
-
-	@IsMongoId()
-	@ApiModelProperty({
-		required: true,
-		type: String,
-		example: 'MongoId'
-	})
-	readonly author: string;
 }

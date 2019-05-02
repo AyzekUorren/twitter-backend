@@ -1,4 +1,5 @@
-import { TwetTagDTO } from './dto/twetTag.dto';
+import { UpdateTwetDto } from './dto/update-twet.dto';
+import { TwetTagDTO } from '../main/dto/twet-tag.dto';
 import { CreateTwetDto } from './dto/create-twet.dto';
 import { Twet } from './interfaces/twet.interface';
 import { Inject, Injectable, forwardRef, Logger, BadRequestException } from '@nestjs/common';
@@ -8,59 +9,97 @@ import { TagService } from '../tag/tag.service';
 
 @Injectable()
 export class TwetService {
-  constructor(
-    @Inject('TWET_MODEL') private readonly twetModel: Model<Twet>,
-    @Inject(forwardRef(() => TagService))
-    private readonly tagService: TagService,
-  ) {}
+	constructor(
+		@Inject('TWET_MODEL') private readonly twetModel: Model<Twet>,
+		@Inject(forwardRef(() => TagService))
+		private readonly tagService: TagService
+	) {}
 
-  async create(createTwetDto: CreateTwetDto): Promise<Twet> {
-    const createdTwet = new this.twetModel(createTwetDto);
-    await createdTwet.save();
-    return createdTwet;
-  }
+	async create(createTwetDto: CreateTwetDto): Promise<Twet> {
+		const createdTwet = new this.twetModel(this.updateDate(createTwetDto, true));
+		await createdTwet.save();
+		return createdTwet;
+	}
 
-  async findAll(): Promise<Twet[]> {
-    return await this.twetModel
-    .find()
-    .populate('tags')
-    .populate('twets')
-    .exec();
-  }
+	async update(twetId: string, twetDto: UpdateTwetDto): Promise<Twet> {
+		const twet = await this.twetModel.findById(twetId).exec();
+		if (!twet) {
+			Logger.error(`Twet->update: twet:${twetId} not found`);
+			throw new BadRequestException();
+		}
 
-  async addTag(twetTagDto: TwetTagDTO): Promise<Twet> {
-    const tag = await this.tagService.findById(twetTagDto.tagId);
-    const twet = await this.twetModel.findById(twetTagDto.twetId);
-    if (tag === null || twet === null) {
-      Logger.error(`Twet->addTag: (Wrong params) tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`);
-      throw new BadRequestException('Wrong params');
-    }
+		twetDto.updatedAt = new Date().toString();
+		return await this.twetModel
+			.findOneAndUpdate(
+				{
+					_id: twetId
+				},
+				twetDto,
+				MONGOOSE_UPDATE_OPTIONS
+			)
+			.exec();
+	}
 
-    return await this.twetModel.findOneAndUpdate(
-      {_id: twet.id},
-      { $addToSet: {tags: tag.id}},
-      MONGOOSE_UPDATE_OPTIONS,
-    )
-    .exec();
-  }
+	async findAll(): Promise<Twet[]> {
+		return await this.twetModel.find().populate('tags').populate('twets').exec();
+	}
 
-  async remove(twetId: string): Promise<Twet> {
-    return await this.twetModel.findByIdAndRemove(twetId).exec();
-  }
+	async addTag(twetTagDto: TwetTagDTO): Promise<Twet> {
+		const tag = await this.tagService.findById(twetTagDto.tagId);
+		const twet = await this.twetModel.findById(twetTagDto.twetId);
+		if (tag === null || twet === null) {
+			Logger.error(`Twet->addTag: (Wrong params) tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`);
+			throw new BadRequestException('Wrong params');
+		}
 
-  async removeTag(twetTagDto: TwetTagDTO): Promise<Twet> {
-    const tag = await this.tagService.findById(twetTagDto.tagId);
-    const twet = await this.twetModel.findById(twetTagDto.twetId);
-    if (tag === null || twet === null) {
-      Logger.error(`Twet->addTag: tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`);
-      throw new BadRequestException('Wrong params');
-    }
+		const updatedTwet = this.updateDate(twet);
 
-    return await this.twetModel.findOneAndUpdate(
-      {_id: twet.id},
-      { $pull: {tags: tag.id}},
-      MONGOOSE_UPDATE_OPTIONS,
-    )
-    .exec();
-  }
+		return await this.twetModel
+			.findOneAndUpdate(
+				{ _id: twet.id },
+				{
+					$set: { updatedAt: updatedTwet.updatedAt },
+					$addToSet: { tags: tag.id }
+				},
+				MONGOOSE_UPDATE_OPTIONS
+			)
+			.exec();
+	}
+
+	async remove(twetId: string): Promise<Twet> {
+		return await this.twetModel.findByIdAndRemove(twetId).exec();
+	}
+
+	async removeTag(twetTagDto: TwetTagDTO): Promise<Twet> {
+		const tag = await this.tagService.findById(twetTagDto.tagId);
+		const twet = await this.twetModel.findById(twetTagDto.twetId);
+		if (!tag || !twet) {
+			Logger.error(`Twet->addTag: tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`);
+			throw new BadRequestException('Wrong params');
+		}
+
+		const updatedTwet = this.updateDate(twet);
+
+		return await this.twetModel
+			.findOneAndUpdate(
+				{ _id: twet.id },
+				{
+					$set: { updatedAt: updatedTwet.updatedAt },
+					$pull: { tags: tag.id }
+				},
+				MONGOOSE_UPDATE_OPTIONS
+			)
+			.exec();
+	}
+
+	protected updateDate(createTwetDto: CreateTwetDto | Twet, isCreated = false): CreateTwetDto | Twet {
+		const currentDateString = new Date().toString();
+
+		createTwetDto.updatedAt = currentDateString;
+		if (isCreated && createTwetDto instanceof CreateTwetDto) {
+			createTwetDto.createdAt = currentDateString;
+		}
+
+		return createTwetDto;
+	}
 }
