@@ -33,13 +33,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 
-  if (process.env.NODE_ENV !== 'production') {
-    await app.listen(port, () => {
+  await app.listen(port, () => {
+    if (process.env.NODE_ENV !== 'production') {
       Logger.log(`-> Listening on	\x1b[34m http://localhost:${ port }/docs\x1b[0m`);
-    });
-  } else {
-    await app.listen();
-  }
-
+    }
+  });
 }
 bootstrap();
