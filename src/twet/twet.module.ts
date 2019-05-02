@@ -7,13 +7,9 @@ import { DatabaseModule } from '../database/database.module';
 import { TwetProviders } from './twet.providers';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    forwardRef(() => UserModule),
-    forwardRef(() => TagModule)
-  ],
-  controllers: [TwetController],
-  providers: [TwetService, ...TwetProviders],
-  exports: [TwetService],
+	imports: [ DatabaseModule, forwardRef(() => UserModule), forwardRef(() => TagModule) ],
+	controllers: [ TwetController ],
+	providers: [ TwetService, ...TwetProviders ],
+	exports: [ TwetService ]
 })
 export class TwetModule {}
