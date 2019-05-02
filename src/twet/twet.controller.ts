@@ -1,3 +1,4 @@
+import { UpdateTwetDto } from './dto/update-twet.dto';
 import { TwetTagDTO } from '../main/dto/twet-tag.dto';
 import { CreateTwetDto } from './dto/create-twet.dto';
 import { TwetService } from './twet.service';
@@ -16,6 +17,8 @@ export class TwetController {
 	) {}
 
 	@Post()
+	@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+	@ApiResponse({ status: HttpStatus.OK, description: 'Created Tweet' })
 	async create(@Body() createTwetDto: CreateTwetDto) {
 		const createdTwet = await this.twetService.create(createTwetDto);
 
@@ -34,6 +37,13 @@ export class TwetController {
 		return await this.twetService.addTag(twetTagDto);
 	}
 
+	@Put(':id')
+	@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+	@ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet' })
+	async update(@Param('id') twetId: string, @Body() updateTwetDto: UpdateTwetDto): Promise<Twet> {
+		return await this.twetService.update(twetId, updateTwetDto);
+	}
+
 	@Delete('removeTag')
 	@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
 	@ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet' })
@@ -42,6 +52,7 @@ export class TwetController {
 	}
 
 	@Delete(':id')
+	@ApiResponse({ status: HttpStatus.OK, description: 'Removed Tweet' })
 	async remove(@Param('id') twetId: string) {
 		const removedTwet = await this.twetService.remove(twetId);
 
@@ -54,6 +65,7 @@ export class TwetController {
 	}
 
 	@Get()
+	@ApiResponse({ status: HttpStatus.OK, description: 'Twets array' })
 	async findAll(): Promise<Twet[]> {
 		return await this.twetService.findAll();
 	}

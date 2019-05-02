@@ -1,5 +1,4 @@
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UpdateTagDto } from './../tag/dto/update-tag.dto';
 import { TagService } from './../tag/tag.service';
 import { TwetService } from './../twet/twet.service';
 import { UserTwetDTO } from '../main/dto/user-twet.dto';
@@ -24,7 +23,7 @@ export class UserService {
 		return await createdUser.save();
 	}
 
-	async update(userId: string, userDto: UpdateTagDto): Promise<User> {
+	async update(userId: string, userDto: UpdateUserDto): Promise<User> {
 		const user = await this.userModel.findById(userId).exec();
 		if (!user) {
 			Logger.error(`User->remove: user:${userId} not found`);

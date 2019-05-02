@@ -1,3 +1,4 @@
+import { UpdateTwetDto } from './dto/update-twet.dto';
 import { TwetTagDTO } from '../main/dto/twet-tag.dto';
 import { CreateTwetDto } from './dto/create-twet.dto';
 import { Twet } from './interfaces/twet.interface';
@@ -18,6 +19,25 @@ export class TwetService {
 		const createdTwet = new this.twetModel(this.updateDate(createTwetDto, true));
 		await createdTwet.save();
 		return createdTwet;
+	}
+
+	async update(twetId: string, twetDto: UpdateTwetDto): Promise<Twet> {
+		const twet = await this.twetModel.findById(twetId).exec();
+		if (!twet) {
+			Logger.error(`Twet->update: twet:${twetId} not found`);
+			throw new BadRequestException();
+		}
+
+		twetDto.updatedAt = new Date().toString();
+		return await this.twetModel
+			.findOneAndUpdate(
+				{
+					_id: twetId
+				},
+				twetDto,
+				MONGOOSE_UPDATE_OPTIONS
+			)
+			.exec();
 	}
 
 	async findAll(): Promise<Twet[]> {

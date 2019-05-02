@@ -1,10 +1,9 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsEmpty } from 'class-validator';
+import { IsEmail, IsEmpty, IsOptional } from 'class-validator';
 
 export class UpdateUserDto {
-	@IsNotEmpty()
 	@ApiModelProperty({
-		required: true,
+		required: false,
 		type: String,
 		example: 'example.com/image.jpg'
 	})
@@ -12,9 +11,8 @@ export class UpdateUserDto {
 
 	@IsEmpty() updatedAt: string;
 
-	@IsNotEmpty()
 	@ApiModelProperty({
-		required: true,
+		required: false,
 		type: String,
 		example: 'John'
 	})
@@ -34,17 +32,17 @@ export class UpdateUserDto {
 	})
 	readonly lastName: string;
 
-	@IsNotEmpty()
 	@ApiModelProperty({
-		required: true,
+		required: false,
 		type: String,
 		example: 'password12345'
 	})
 	readonly password: string;
 
+	@IsOptional()
 	@IsEmail()
 	@ApiModelProperty({
-		required: true,
+		required: false,
 		type: String,
 		example: 'example@mail.com'
 	})
