@@ -31,6 +31,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix(process.env.API_PREFIX || 'dev');
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
 
   await app.listen(port, () => {
     if (process.env.NODE_ENV !== 'production') {
