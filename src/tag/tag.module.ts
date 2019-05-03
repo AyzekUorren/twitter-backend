@@ -6,23 +6,23 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 
 @Module({
-    imports:
-        [
-            DatabaseModule,
-            UserModule,
-        ],
-    controllers:
-        [
-            TagController,
-        ],
-    providers:
-        [
-            TagService,
-            ...TagProviders,
-        ],
-    exports:
-        [
-            TagService,
-        ],
+  imports:
+    [
+      DatabaseModule,
+      UserModule,
+    ],
+  controllers:
+    [
+      TagController,
+    ],
+  providers:
+    [
+      TagService,
+      ...TagProviders,
+    ],
+  exports:
+    [
+      TagService,
+    ],
 })
 export class TagModule {}
