@@ -8,8 +8,21 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from './config/config.module';
 @Module({
-	imports: [ ConfigModule, DatabaseModule, UserModule, TwetModule, TagModule ],
-	controllers: [ AppController ],
-	providers: [ AppService ]
+    imports:
+        [
+            ConfigModule,
+            DatabaseModule,
+            UserModule,
+            TwetModule,
+            TagModule,
+        ],
+    controllers:
+        [
+            AppController,
+        ],
+    providers:
+        [
+            AppService,
+        ],
 })
 export class AppModule {}
