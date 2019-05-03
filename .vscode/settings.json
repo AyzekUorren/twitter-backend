@@ -1,2 +1,8 @@
 {
+    "editor.formatOnSave": true,
+    "prettier.useTabs": false,
+    "prettier.arrayExpand": true,
+    "prettier.breakProperty": true,
+    "prettier.printWidth": 80,
+    "prettier.trailingComma": "all"
 }
