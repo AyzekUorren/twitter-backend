@@ -1,94 +1,43 @@
 {
-    // Align colons in multiline object literals. Does nothing if object has computed property names.
-  "prettier.alignObjectProperties": false,
-
-  // Expand arrays into one item per line
+  "prettier.alignObjectProperties": true,
   "prettier.arrayExpand": true,
-
-  // Always put parentheses on arrow function arguments
   "prettier.arrowParens": true,
-
-  // Scroll automatically to line where error has been detected
   "prettier.autoScroll": true,
-
-  // Print spaces between brackets in object literals
   "prettier.bracesSpacing": true,
-
-  // Print spaces between brackets in array literals
   "prettier.bracketSpacing": true,
-
-  // Put else clause in a new line
   "prettier.breakBeforeElse": true,
-
-  // Allow object properties to break lines between the property name and its value
   "prettier.breakProperty": true,
-
-  // Advanced feature. Enable Prettier parser for styling files.
   "prettier.cssEnable": [
     "css",
     "less",
     "scss",
     "postcss"
   ],
-
-  // Format ternaries in a flat style
-  "prettier.flattenTernaries": false,
-
-  // Advanced feature. Enable Prettier parser for GraphQL.
+  "prettier.flattenTernaries": true,
   "prettier.graphqlEnable": [
     "graphql"
   ],
-
-  // Advanced feature. Enable Prettier parser for JavaScript.
   "prettier.javascriptEnable": [
     "javascript",
     "javascriptreact"
   ],
-
-  // Advanced feature. Enable Prettier parser for JSON.
   "prettier.jsonEnable": [
     "json"
   ],
-
-  // If true, puts the `>` of a multi-line jsx element at the end of the last line instead of being alone on the next line
-  "prettier.jsxBracketSameLine": false,
-
-  // If true, will use single instead of double quotes in JSX
-  "prettier.jsxSingleQuote": false,
-
-  // Omit space before empty anonymous function body
-  "prettier.noSpaceEmptyFn": false,
-
-  // Automatically opens Prettier output when an error is detected
+  "prettier.jsxBracketSameLine": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.noSpaceEmptyFn": true,
   "prettier.openOutput": true,
-
-  // Fit code within this line limit
   "prettier.printWidth": 80,
-
-  // Print semicolons at the ends of statements
   "prettier.semi": true,
-
-  // If true, will use single instead of double quotes
   "prettier.singleQuote": true,
-
-  // Put a space before function parenthesis
-  "prettier.spaceBeforeFunctionParen": false,
-
-  // Display Prettier status in the bottom bar
+  "prettier.spaceBeforeFunctionParen": true,
   "prettier.statusBar": true,
-
-  // Number of spaces it should use per tab
   "prettier.tabWidth": 2,
-
-  // Controls the printing of trailing commas wherever possible
-  "prettier.trailingComma": "none",
-
-  // Advanced feature. Enable Prettier parser for TypeScript.
+  "prettier.trailingComma": "all",
   "prettier.typescriptEnable": [
     "typescript",
     "typescriptreact"
   ],
-
-  // Use tabs instead of spaces
   "prettier.useTabs": false
 }
