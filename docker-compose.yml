@@ -28,6 +28,7 @@ services:
       NODE_ENV: DEV
       API_PREFIX: v1
       MONGO_URL: mongodb://mongo/twitter-backend
+      JWT_SECRET: test
     networks: 
       - backend
 

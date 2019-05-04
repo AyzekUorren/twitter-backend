@@ -10,7 +10,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
 import { User } from './interfaces/user.interface';
 import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
 
@@ -22,7 +22,16 @@ export class UserService {
     private readonly tagService: TagService,
   ) {}
 
-  async create (createUserDto: CreateUserDto): Promise<User> {
+  async create (createUserDto: UserDto): Promise<User> {
+    const user = await this.userModel
+      .findOne({ email: createUserDto.email })
+      .exec();
+    if (user) {
+      Logger.error('userService->create: User already exists');
+      throw new BadRequestException('User already exists');
+    }
+
+    createUserDto.email = createUserDto.email.toLowerCase();
     const createdUser = new this.userModel(this.updateDate(createUserDto));
 
     return await createdUser.save();
@@ -62,7 +71,7 @@ export class UserService {
 
     if (user.tags) {
       for await (const tagId of user.tags) {
-        this.tagService.remove(tagId);
+        this.tagService.remove(tagId, user.id);
       }
     }
   }
@@ -73,6 +82,10 @@ export class UserService {
 
   async findById (userId: string): Promise<User> {
     return await this.userModel.findById(userId).populate('twets tags').exec();
+  }
+
+  async findByEmail (userEmail: string): Promise<User> {
+    return await this.userModel.findOne({ email: userEmail }).exec();
   }
 
   async addTwet (userTwetDto: UserTwetDTO): Promise<User> {
@@ -156,13 +169,13 @@ export class UserService {
   }
 
   protected updateDate (
-    userDto: CreateUserDto | User,
+    userDto: UserDto | User,
     isCreated = false,
-  ): CreateUserDto | User {
+  ): UserDto | User {
     const currentDateString = new Date().toString();
 
     userDto.updatedAt = currentDateString;
-    if (isCreated && userDto instanceof CreateUserDto) {
+    if (isCreated && userDto instanceof UserDto) {
       userDto.createdAt = currentDateString;
     }
 

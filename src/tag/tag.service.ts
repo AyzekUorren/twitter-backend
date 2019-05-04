@@ -27,13 +27,22 @@ export class TagService {
     return await this.tagModel.findById(tagId).exec();
   }
 
-  async remove (tagId: string): Promise<Tag> {
+  async remove (tagId: string, author: string): Promise<Tag> {
+    const tag = await this.tagModel.findById(tagId).exec();
+    if (tag.author !== author) {
+      Logger.error('Tag->remove: Tag not found');
+      throw new BadRequestException('Tag not found');
+    }
     return await this.tagModel.findByIdAndRemove(tagId).exec();
   }
 
-  async update (tagId: string, updateTagDto: UpdateTagDto): Promise<Tag> {
-    const tag = this.tagModel.findById(tagId);
-    if (!tag) {
+  async update (
+    tagId: string,
+    updateTagDto: UpdateTagDto,
+    author: string,
+  ): Promise<Tag> {
+    const tag = await this.tagModel.findById(tagId).exec();
+    if (!tag || tag.author !== author) {
       Logger.error(`Tag->update: tag:${tagId} not found`);
       throw new BadRequestException();
     }

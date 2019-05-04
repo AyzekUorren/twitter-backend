@@ -1,6 +1,6 @@
 import { UpdateTwetDto } from './dto/update-twet.dto';
 import { TwetTagDTO } from '../main/dto/twet-tag.dto';
-import { CreateTwetDto } from './dto/create-twet.dto';
+import { TwetDto } from './dto/create-twet.dto';
 import { Twet } from './interfaces/twet.interface';
 import {
   Inject,
@@ -21,7 +21,7 @@ export class TwetService {
     private readonly tagService: TagService,
   ) {}
 
-  async create (createTwetDto: CreateTwetDto): Promise<Twet> {
+  async create (createTwetDto: TwetDto): Promise<Twet> {
     const createdTwet = new this.twetModel(
       this.updateDate(createTwetDto, true),
     );
@@ -29,9 +29,13 @@ export class TwetService {
     return createdTwet;
   }
 
-  async update (twetId: string, twetDto: UpdateTwetDto): Promise<Twet> {
+  async update (
+    twetId: string,
+    twetDto: UpdateTwetDto,
+    author: string,
+  ): Promise<Twet> {
     const twet = await this.twetModel.findById(twetId).exec();
-    if (!twet) {
+    if (!twet || twet.author.toString() !== author.toString()) {
       Logger.error(`Twet->update: twet:${twetId} not found`);
       throw new BadRequestException();
     }
@@ -109,13 +113,13 @@ export class TwetService {
   }
 
   protected updateDate (
-    createTwetDto: CreateTwetDto | Twet,
+    createTwetDto: TwetDto | Twet,
     isCreated = false,
-  ): CreateTwetDto | Twet {
+  ): TwetDto | Twet {
     const currentDateString = new Date().toString();
 
     createTwetDto.updatedAt = currentDateString;
-    if (isCreated && createTwetDto instanceof CreateTwetDto) {
+    if (isCreated && createTwetDto instanceof TwetDto) {
       createTwetDto.createdAt = currentDateString;
     }
 

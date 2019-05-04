@@ -1,5 +1,5 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsMongoId, IsEmpty } from 'class-validator';
+import { IsString, IsEmpty } from 'class-validator';
 
 export class CreateTagDto {
   @IsEmpty() createdAt: string;
@@ -21,11 +21,5 @@ export class CreateTagDto {
   })
   readonly description: string;
 
-  @IsMongoId()
-  @ApiModelProperty({
-    required: true,
-    type: String,
-    example: 'MongoId',
-  })
-  readonly author: string;
+  @IsEmpty() author: string;
 }
