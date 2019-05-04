@@ -1,3 +1,4 @@
+import { UtilsModule } from './../main/helpers/utils.module';
 import { TagModule } from './../tag/tag.module';
 import { UserModule } from './../user/user.module';
 import { TwetService } from './twet.service';
@@ -12,6 +13,7 @@ import { TwetProviders } from './twet.providers';
       DatabaseModule,
       forwardRef(() => UserModule),
       forwardRef(() => TagModule),
+      forwardRef(() => UtilsModule),
     ],
   controllers:
     [

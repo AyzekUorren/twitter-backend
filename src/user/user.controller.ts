@@ -1,4 +1,3 @@
-import { UserIdDto } from './dto/userId.dto';
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import {
   Controller,
@@ -9,8 +8,6 @@ import {
   HttpStatus,
   Put,
   UseGuards,
-  Req,
-  Logger,
 } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';

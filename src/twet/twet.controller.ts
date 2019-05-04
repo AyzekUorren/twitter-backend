@@ -51,7 +51,7 @@ export class TwetController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('addTag')
+  @Put('tag')
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -77,7 +77,7 @@ export class TwetController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('removeTag')
+  @Delete('tag')
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -92,12 +92,14 @@ export class TwetController {
   async remove (@Param('id') twetId: string) {
     const removedTwet = await this.twetService.remove(twetId);
 
-    if (removedTwet || removedTwet.author) {
+    if (removedTwet && removedTwet.author) {
       await this.userService.removeTwet({
         userId: removedTwet.author,
         twetId: removedTwet.id,
       });
     }
+
+    return { status: 'ok', message: 'Twet was removed' };
   }
 
   @UseGuards(JwtAuthGuard)

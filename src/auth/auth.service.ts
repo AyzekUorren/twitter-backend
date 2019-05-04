@@ -51,7 +51,6 @@ export class AuthService {
       Logger.error('auth-> validateUser: Token not valid');
       throw new UnauthorizedException('Token not valid');
     }
-    Logger.debug('validateUser', JSON.stringify(payload));
     const user = await this.userService.findByEmail(
       payload.username.toLowerCase(),
     );

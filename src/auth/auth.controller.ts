@@ -2,7 +2,7 @@ import { UserDto } from '../user/dto/user.dto';
 import { Controller, Post, Body, Req, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiUseTags } from '@nestjs/swagger';
-import { AuthUserDto } from 'src/user/dto/auth-user.dto';
+import { AuthUserDto } from '../user/dto/auth-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')

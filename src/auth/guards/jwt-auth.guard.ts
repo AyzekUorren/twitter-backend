@@ -21,7 +21,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   handleRequest (err, user, info) {
-    Logger.debug('handleRequest', user);
     if (err || !user) {
       Logger.error(err, user, info);
       Logger.error('jwt-guard->handleRequest: user not found');

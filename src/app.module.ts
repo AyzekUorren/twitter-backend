@@ -1,3 +1,4 @@
+import { UtilsModule } from './main/helpers/utils.module';
 import { AuthModule } from './auth/auth.module';
 import { TagModule } from './tag/tag.module';
 import { TwetModule } from './twet/twet.module';
@@ -17,6 +18,7 @@ import { ConfigModule } from './config/config.module';
       UserModule,
       TwetModule,
       TagModule,
+      UtilsModule,
     ],
   controllers:
     [

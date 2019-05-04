@@ -1,18 +1,17 @@
+import { UtilsService } from '../main/helpers/utils.service';
 import { MONGOOSE_UPDATE_OPTIONS } from './../constants';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { Tag } from './interfaces/tag.interface';
-import {
-  Inject,
-  Injectable,
-  Logger,
-  BadRequestException,
-} from '@nestjs/common';
-import { Model, mongo } from 'mongoose';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class TagService {
-  constructor (@Inject('TAG_MODEL') private readonly tagModel: Model<Tag>) {}
+  constructor (
+    @Inject('TAG_MODEL') private readonly tagModel: Model<Tag>,
+    @Inject(UtilsService) private readonly utils: UtilsService,
+  ) {}
 
   async create (createTagDto: CreateTagDto): Promise<Tag> {
     const createdTag = new this.tagModel(this.updateDate(createTagDto, true));
@@ -24,25 +23,17 @@ export class TagService {
   }
 
   async findById (tagId: string): Promise<Tag> {
-    if (!mongo.ObjectID.isValid(tagId)) {
-      Logger.error(`ObjectID is not valid ${tagId}`);
-      throw new BadRequestException(`ObjectID is not valid ${tagId}`);
-    }
-
+    this.utils.validateObjecId(tagId);
     return await this.tagModel.findById(tagId).exec();
   }
 
   async remove (tagId: string, author: string): Promise<Tag> {
-    if (!mongo.ObjectID.isValid(tagId)) {
-      Logger.error(`ObjectID is not valid ${tagId}`);
-      throw new BadRequestException(`ObjectID is not valid ${tagId}`);
-    }
+    this.utils.validateObjecId(tagId);
 
-    const tag = await this.tagModel.findById(tagId).exec();
-    if (tag.author !== author) {
-      Logger.error('Tag->remove: Tag not found');
-      throw new BadRequestException('Tag not found');
-    }
+    const tag = await this.tagModel
+      .findOne({ _id: tagId, author: author })
+      .exec();
+    this.utils.checkModel(tag, 'Tag not found', 'Tag->remove');
     return await this.tagModel.findByIdAndRemove(tagId).exec();
   }
 
@@ -51,16 +42,12 @@ export class TagService {
     updateTagDto: UpdateTagDto,
     author: string,
   ): Promise<Tag> {
-    if (!mongo.ObjectID.isValid(tagId)) {
-      Logger.error(`ObjectID is not valid ${tagId}`);
-      throw new BadRequestException(`ObjectID is not valid ${tagId}`);
-    }
+    this.utils.validateObjecId(tagId);
 
-    const tag = await this.tagModel.findById(tagId).exec();
-    if (!tag || tag.author !== author) {
-      Logger.error(`Tag->update: tag:${tagId} not found`);
-      throw new BadRequestException();
-    }
+    const tag = await this.tagModel
+      .findOne({ _id: tagId, author: author })
+      .exec();
+    this.utils.checkModel(tag, `tag:${tagId} not found`, 'Tag->update');
 
     return await this.tagModel
       .findOneAndUpdate(
