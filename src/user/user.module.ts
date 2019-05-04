@@ -5,6 +5,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { userProviders } from './user.providers';
 import { DatabaseModule } from '../database/database.module';
+import { UtilsModule } from '../main/helpers/utils.module';
 
 @Module({
   imports:
@@ -12,6 +13,7 @@ import { DatabaseModule } from '../database/database.module';
       DatabaseModule,
       forwardRef(() => TwetModule),
       forwardRef(() => TagModule),
+      forwardRef(() => UtilsModule),
     ],
   controllers:
     [

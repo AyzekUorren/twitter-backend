@@ -1,5 +1,5 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // See https://go.icrosoft.com/fwlink/?LinkId=733558 m
     // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
@@ -14,6 +14,11 @@
             "type": "npm",
             "script": "start:develop",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "start:docker",
+            "problemMatcher": [],
         }
     ]
 }

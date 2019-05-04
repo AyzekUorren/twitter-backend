@@ -1,14 +1,10 @@
+import { UtilsService } from '../main/helpers/utils.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { TagService } from './../tag/tag.service';
 import { TwetService } from './../twet/twet.service';
 import { UserTwetDTO } from '../main/dto/user-twet.dto';
 import { UserTagDTO } from '../main/dto/user-tag.dto';
-import {
-  Inject,
-  Injectable,
-  BadRequestException,
-  Logger,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { UserDto } from './dto/user.dto';
 import { User } from './interfaces/user.interface';
@@ -20,29 +16,28 @@ export class UserService {
     @Inject('USER_MODEL') private readonly userModel: Model<User>,
     private readonly twetService: TwetService,
     private readonly tagService: TagService,
+    @Inject(UtilsService) private readonly utils: UtilsService,
   ) {}
 
   async create (createUserDto: UserDto): Promise<User> {
     const user = await this.userModel
       .findOne({ email: createUserDto.email })
       .exec();
-    if (user) {
-      Logger.error('userService->create: User already exists');
-      throw new BadRequestException('User already exists');
-    }
+    this.utils.checkModel(!user, 'User already exists', 'userService->create');
 
     createUserDto.email = createUserDto.email.toLowerCase();
-    const createdUser = new this.userModel(this.updateDate(createUserDto));
+    const createdUser = new this.userModel(
+      this.updateDate(createUserDto, true),
+    );
 
     return await createdUser.save();
   }
 
   async update (userId: string, userDto: UpdateUserDto): Promise<User> {
+    this.utils.validateObjecId(userId);
+
     const user = await this.userModel.findById(userId).exec();
-    if (!user) {
-      Logger.error(`User->remove: user:${userId} not found`);
-      throw new BadRequestException();
-    }
+    this.utils.checkModel(user, `user:${userId} not found`, 'User->remove');
 
     userDto.updatedAt = new Date().toString();
     return await this.userModel
@@ -57,11 +52,10 @@ export class UserService {
   }
 
   async remove (userId: string) {
+    this.utils.validateObjecId(userId);
+
     const user = await this.userModel.findByIdAndRemove(userId).exec();
-    if (!user) {
-      Logger.error(`User->remove: user:${userId} not found`);
-      throw new BadRequestException();
-    }
+    this.utils.checkModel(user, `user:${userId} not found`, 'User->remove');
 
     if (user.twets) {
       for await (const twetId of user.twets) {
@@ -81,6 +75,8 @@ export class UserService {
   }
 
   async findById (userId: string): Promise<User> {
+    this.utils.validateObjecId(userId);
+
     return await this.userModel.findById(userId).populate('twets tags').exec();
   }
 
@@ -90,10 +86,11 @@ export class UserService {
 
   async addTwet (userTwetDto: UserTwetDTO): Promise<User> {
     const user = await this.userModel.findById(userTwetDto.userId).exec();
-    if (!user) {
-      Logger.error(`User->remove: user:${userTwetDto.userId} not found`);
-      throw new BadRequestException();
-    }
+    this.utils.checkModel(
+      user,
+      `user:${userTwetDto.userId} not found`,
+      'User->addTwet',
+    );
 
     const updatedUser = this.updateDate(user);
     return await this.userModel
@@ -110,10 +107,11 @@ export class UserService {
 
   async removeTwet (userTwetDto: UserTwetDTO): Promise<User> {
     const user = await this.userModel.findById(userTwetDto.userId).exec();
-    if (!user) {
-      Logger.error(`User->remove: user:${userTwetDto.userId} not found`);
-      throw new BadRequestException();
-    }
+    this.utils.checkModel(
+      user,
+      `user:${userTwetDto.userId} not found`,
+      'User->removeTwet',
+    );
 
     const updatedUser = this.updateDate(user);
     return await this.userModel
@@ -130,10 +128,11 @@ export class UserService {
 
   async addTag (userTagdto: UserTagDTO): Promise<User> {
     const user = await this.userModel.findById(userTagdto.userId).exec();
-    if (!user) {
-      Logger.error(`User->remove: user:${userTagdto.userId} not found`);
-      throw new BadRequestException();
-    }
+    this.utils.checkModel(
+      user,
+      `user:${userTagdto.userId} not found`,
+      'User->addTag',
+    );
 
     const updatedUser = this.updateDate(user);
     return await this.userModel
@@ -150,10 +149,11 @@ export class UserService {
 
   async removeTag (userTagDto: UserTagDTO): Promise<User> {
     const user = await this.userModel.findById(userTagDto.userId).exec();
-    if (!user) {
-      Logger.error(`User->remove: user:${userTagDto.userId} not found`);
-      throw new BadRequestException();
-    }
+    this.utils.checkModel(
+      user,
+      `user:${userTagDto.userId} not found`,
+      'User->removeTag',
+    );
 
     const updatedUser = this.updateDate(user);
     return await this.userModel

@@ -83,10 +83,11 @@ export class TagController {
   @ApiResponse({ status: HttpStatus.OK, description: 'Removed Tag' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async remove (@Param('id') tagId: string, @Req() request) {
-    const removedTag = await this.tagService.remove(tagId, request.user.id);
+    const removedTag = await this.tagService.remove(tagId, request.user._id);
     await this.userService.removeTag({
       userId: removedTag.author,
       tagId: removedTag.id,
     });
+    return { status: 'ok', message: 'tag was removed' };
   }
 }
