@@ -8,7 +8,7 @@ import {
   Logger,
   BadRequestException,
 } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, mongo } from 'mongoose';
 
 @Injectable()
 export class TagService {
@@ -24,10 +24,20 @@ export class TagService {
   }
 
   async findById (tagId: string): Promise<Tag> {
+    if (!mongo.ObjectID.isValid(tagId)) {
+      Logger.error(`ObjectID is not valid ${tagId}`);
+      throw new BadRequestException(`ObjectID is not valid ${tagId}`);
+    }
+
     return await this.tagModel.findById(tagId).exec();
   }
 
   async remove (tagId: string, author: string): Promise<Tag> {
+    if (!mongo.ObjectID.isValid(tagId)) {
+      Logger.error(`ObjectID is not valid ${tagId}`);
+      throw new BadRequestException(`ObjectID is not valid ${tagId}`);
+    }
+
     const tag = await this.tagModel.findById(tagId).exec();
     if (tag.author !== author) {
       Logger.error('Tag->remove: Tag not found');
@@ -41,6 +51,11 @@ export class TagService {
     updateTagDto: UpdateTagDto,
     author: string,
   ): Promise<Tag> {
+    if (!mongo.ObjectID.isValid(tagId)) {
+      Logger.error(`ObjectID is not valid ${tagId}`);
+      throw new BadRequestException(`ObjectID is not valid ${tagId}`);
+    }
+
     const tag = await this.tagModel.findById(tagId).exec();
     if (!tag || tag.author !== author) {
       Logger.error(`Tag->update: tag:${tagId} not found`);

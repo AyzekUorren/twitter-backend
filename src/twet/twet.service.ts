@@ -9,7 +9,7 @@ import {
   Logger,
   BadRequestException,
 } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, mongo } from 'mongoose';
 import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
 import { TagService } from '../tag/tag.service';
 
@@ -34,6 +34,11 @@ export class TwetService {
     twetDto: UpdateTwetDto,
     author: string,
   ): Promise<Twet> {
+    if (!mongo.ObjectID.isValid(twetId)) {
+      Logger.error(`ObjectID is not valid ${twetId}`);
+      throw new BadRequestException(`ObjectID is not valid ${twetId}`);
+    }
+
     const twet = await this.twetModel.findById(twetId).exec();
     if (!twet || twet.author.toString() !== author.toString()) {
       Logger.error(`Twet->update: twet:${twetId} not found`);
@@ -85,6 +90,11 @@ export class TwetService {
   }
 
   async remove (twetId: string): Promise<Twet> {
+    if (!mongo.ObjectID.isValid(twetId)) {
+      Logger.error(`ObjectID is not valid ${twetId}`);
+      throw new BadRequestException(`ObjectID is not valid ${twetId}`);
+    }
+
     return await this.twetModel.findByIdAndRemove(twetId).exec();
   }
 

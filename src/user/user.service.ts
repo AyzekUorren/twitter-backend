@@ -9,7 +9,7 @@ import {
   BadRequestException,
   Logger,
 } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, mongo } from 'mongoose';
 import { UserDto } from './dto/user.dto';
 import { User } from './interfaces/user.interface';
 import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
@@ -32,12 +32,19 @@ export class UserService {
     }
 
     createUserDto.email = createUserDto.email.toLowerCase();
-    const createdUser = new this.userModel(this.updateDate(createUserDto));
+    const createdUser = new this.userModel(
+      this.updateDate(createUserDto, true),
+    );
 
     return await createdUser.save();
   }
 
   async update (userId: string, userDto: UpdateUserDto): Promise<User> {
+    if (!mongo.ObjectID.isValid(userId)) {
+      Logger.error(`ObjectID is not valid ${userId}`);
+      throw new BadRequestException(`ObjectID is not valid ${userId}`);
+    }
+
     const user = await this.userModel.findById(userId).exec();
     if (!user) {
       Logger.error(`User->remove: user:${userId} not found`);
@@ -57,6 +64,11 @@ export class UserService {
   }
 
   async remove (userId: string) {
+    if (!mongo.ObjectID.isValid(userId)) {
+      Logger.error(`ObjectID is not valid ${userId}`);
+      throw new BadRequestException(`ObjectID is not valid ${userId}`);
+    }
+
     const user = await this.userModel.findByIdAndRemove(userId).exec();
     if (!user) {
       Logger.error(`User->remove: user:${userId} not found`);
@@ -81,10 +93,16 @@ export class UserService {
   }
 
   async findById (userId: string): Promise<User> {
+    if (!mongo.ObjectID.isValid(userId)) {
+      Logger.error(`ObjectID is not valid ${userId}`);
+      throw new BadRequestException(`ObjectID is not valid ${userId}`);
+    }
+
     return await this.userModel.findById(userId).populate('twets tags').exec();
   }
 
   async findByEmail (userEmail: string): Promise<User> {
+    Logger.debug('findByEmail', userEmail);
     return await this.userModel.findOne({ email: userEmail }).exec();
   }
 
