@@ -22,9 +22,13 @@ export class ConfigService {
 
   protected GetConfigValue (key: string): string {
     Logger.debug(`GET -> ${key}`);
-    return
-      process.env && process.env[key] ? process.env[key] :
-      this.envConfig && this.envConfig[key] ? this.envConfig[key] :
-      '';
+    if (process.env && process.env[key]) {
+      return process.env[key];
+    }
+    else if (this.envConfig && this.envConfig[key]) {
+      return this.envConfig[key];
+    }
+
+    return '';
   }
 }
