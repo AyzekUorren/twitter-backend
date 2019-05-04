@@ -8,7 +8,7 @@ import {
   HttpStatus,
   Put,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import { User } from './interfaces/user.interface';
 import { ApiUseTags, ApiResponse } from '@nestjs/swagger';
@@ -20,9 +20,12 @@ export class UserController {
   constructor (private readonly userService: UserService) {}
 
   @Post()
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'User already exists',
+  })
   @ApiResponse({ status: HttpStatus.OK, description: 'Created User' })
-  async create (@Body() createUserDto: CreateUserDto) {
+  async create (@Body() createUserDto: UserDto) {
     return await this.userService.create(createUserDto);
   }
 

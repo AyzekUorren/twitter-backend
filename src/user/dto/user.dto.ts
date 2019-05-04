@@ -1,8 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsEmpty } from 'class-validator';
-import { isNull } from 'util';
-
-export class CreateUserDto {
+export class UserDto {
   @IsNotEmpty()
   @ApiModelProperty({
     required: true,
@@ -50,7 +48,7 @@ export class CreateUserDto {
     type: String,
     example: 'example@mail.com',
   })
-  readonly email: string;
+  email: string;
 
   readonly twets: string[];
 
