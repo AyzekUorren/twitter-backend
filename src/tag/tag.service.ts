@@ -3,7 +3,7 @@ import { MONGOOSE_UPDATE_OPTIONS } from './../constants';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { Tag } from './interfaces/tag.interface';
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -67,7 +67,7 @@ export class TagService {
     const currentDateString = new Date().toString();
 
     tagDto.updatedAt = currentDateString;
-    if (isCreated && tagDto instanceof CreateTagDto) {
+    if (isCreated) {
       tagDto.createdAt = currentDateString;
     }
 

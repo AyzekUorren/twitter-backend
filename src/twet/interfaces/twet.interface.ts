@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface Twet extends Document {
-  readonly createdAt: string;
+  createdAt: string;
   updatedAt: string;
   readonly name: string;
   readonly link: string;
