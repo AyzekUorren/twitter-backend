@@ -3,6 +3,7 @@ import { IsString, IsEmpty, IsOptional } from 'class-validator';
 
 export class UpdateTagDto {
   @IsEmpty() updatedAt: string;
+  @IsEmpty() createdAt: string;
 
   @IsOptional()
   @IsString()

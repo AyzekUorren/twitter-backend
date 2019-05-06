@@ -1,7 +1,7 @@
 import { UserDto } from '../user/dto/user.dto';
 import { Controller, Post, Body, Req, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthUserDto } from '../user/dto/auth-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
@@ -20,6 +20,7 @@ export class AuthController {
     return await this.authService.signUp(createUserDto);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get()
   async getUser (@Req() request) {

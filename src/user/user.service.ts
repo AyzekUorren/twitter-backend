@@ -175,7 +175,7 @@ export class UserService {
     const currentDateString = new Date().toString();
 
     userDto.updatedAt = currentDateString;
-    if (isCreated && userDto instanceof UserDto) {
+    if (isCreated) {
       userDto.createdAt = currentDateString;
     }
 

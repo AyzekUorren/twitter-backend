@@ -23,7 +23,7 @@ async function bootstrap (){
     .setTitle('Twitter backend API')
     .setDescription('Twitter-app backend')
     .setVersion('1.0')
-    .addTag('auth', 'Authiristation endpoints')
+    .addTag('auth', 'Authorization endpoints')
     .addTag('user', 'User model endpoints')
     .addTag('twet', 'Twett model endpoints')
     .addTag('tag', 'Tag model endpoints')
