@@ -10,23 +10,16 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from './config/config.module';
 @Module({
-  imports:
-    [
-      AuthModule,
-      ConfigModule,
-      DatabaseModule,
-      UserModule,
-      TwetModule,
-      TagModule,
-      UtilsModule,
+    imports: [
+        AuthModule,
+        ConfigModule,
+        DatabaseModule,
+        UserModule,
+        TwetModule,
+        TagModule,
+        UtilsModule,
     ],
-  controllers:
-    [
-      AppController,
-    ],
-  providers:
-    [
-      AppService,
-    ],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {}

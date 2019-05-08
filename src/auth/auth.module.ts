@@ -9,39 +9,23 @@ import { JwtStrategy } from './jwt.strategy';
 import { ConfigService } from '../config/config.service';
 
 @Module({
-  imports:
-    [
-      forwardRef(() => UserModule),
-      PassportModule.register({ defaultStrategy: 'jwt', property: 'user' }),
-      JwtModule.registerAsync({
-        imports:
-          [
-            ConfigModule,
-          ],
-        useFactory:
-          async (config: ConfigService) => {
-            return await {
-              secretOrPrivateKey: config.get('JWT_SECRET') || 'secretKey',
-              signOptions:
-                {
-                  expiresIn: 3600,
-                },
-            };
-          },
-        inject:
-          [
-            ConfigService,
-          ],
-      }),
+    imports: [
+        forwardRef(() => UserModule),
+        PassportModule.register({ defaultStrategy: 'jwt', property: 'user' }),
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: async (config: ConfigService) => {
+                return await {
+                    secretOrPrivateKey: config.get('JWT_SECRET') || 'secretKey',
+                    signOptions: {
+                        expiresIn: 3600,
+                    },
+                };
+            },
+            inject: [ConfigService],
+        }),
     ],
-  controllers:
-    [
-      AuthController,
-    ],
-  providers:
-    [
-      AuthService,
-      JwtStrategy,
-    ],
+    controllers: [AuthController],
+    providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

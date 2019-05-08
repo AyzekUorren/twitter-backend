@@ -8,25 +8,14 @@ import { DatabaseModule } from '../database/database.module';
 import { UtilsModule } from '../main/helpers/utils.module';
 
 @Module({
-  imports:
-    [
-      DatabaseModule,
-      forwardRef(() => TwetModule),
-      forwardRef(() => TagModule),
-      forwardRef(() => UtilsModule),
+    imports: [
+        DatabaseModule,
+        forwardRef(() => TwetModule),
+        forwardRef(() => TagModule),
+        forwardRef(() => UtilsModule),
     ],
-  controllers:
-    [
-      UserController,
-    ],
-  providers:
-    [
-      UserService,
-      ...userProviders,
-    ],
-  exports:
-    [
-      UserService,
-    ],
+    controllers: [UserController],
+    providers: [UserService, ...userProviders],
+    exports: [UserService],
 })
 export class UserModule {}

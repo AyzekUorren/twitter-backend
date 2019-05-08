@@ -6,19 +6,8 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 
 @Module({
-  imports:
-    [
-      DatabaseModule,
-      ConfigModule,
-    ],
-  controllers:
-    [
-      MigrationController,
-    ],
-  providers:
-    [
-      MigrationService,
-      ...MigrationProviders,
-    ],
+    imports: [DatabaseModule, ConfigModule],
+    controllers: [MigrationController],
+    providers: [MigrationService, ...MigrationProviders],
 })
 export class MigrationModule {}
