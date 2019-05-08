@@ -5,20 +5,20 @@ import { Controller, Body, Post, Get } from '@nestjs/common';
 
 @Controller('migrations')
 export class MigrationController {
-  constructor (private readonly migrationService: MigrationService) {}
+    constructor(private readonly migrationService: MigrationService) {}
 
-  @Post()
-  async create (@Body() createMigrationDto: CreateMigrationDto) {
-    return this.migrationService.create(createMigrationDto);
-  }
+    @Post()
+    async create(@Body() createMigrationDto: CreateMigrationDto) {
+        return this.migrationService.create(createMigrationDto);
+    }
 
-  @Get('last')
-  async findLast (): Promise<Migration> {
-    return this.migrationService.findLast();
-  }
+    @Get('last')
+    async findLast(): Promise<Migration> {
+        return this.migrationService.findLast();
+    }
 
-  @Get()
-  async findAll (): Promise<Migration[]> {
-    return this.migrationService.findAll();
-  }
+    @Get()
+    async findAll(): Promise<Migration[]> {
+        return this.migrationService.findAll();
+    }
 }
