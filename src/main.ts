@@ -27,10 +27,7 @@ async function bootstrap() {
         .addTag('twet', 'Twett model endpoints')
         .addTag('tag', 'Tag model endpoints')
         .setBasePath(process.env.API_PREFIX || 'dev')
-        .setHost(
-            process.env.HOST_NAME ||
-                'localhost' + (process.env.PORT || ':3000'),
-        )
+        .setSchemes(process.env.HTTPS ? 'https' : 'http')
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('docs', app, document);
