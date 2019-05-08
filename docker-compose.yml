@@ -1,19 +1,17 @@
-version: '3.3'
+version: "3.3"
 
 services:
-
   mongo:
     container_name: twitter-mongo
     image: mongo
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
       - ./data:/data/db
     restart: always
-    networks: 
+    networks:
       - backend
-      
-      
+
   twitter:
     container_name: twitter-backend
     image: twitter-backend
@@ -21,7 +19,7 @@ services:
       - .:/usr/src/app
     build: .
     ports:
-      - '3000:3000'
+      - "3000:3000"
     links:
       - mongo
     environment:
@@ -29,7 +27,7 @@ services:
       API_PREFIX: v1
       MONGO_URL: mongodb://mongo/twitter-backend
       JWT_SECRET: test
-    networks: 
+    networks:
       - backend
 
 networks:
