@@ -85,7 +85,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "prettier --write --config",
+      "prettier --write --config .prettierrc",
       "git add"
     ]
   }
