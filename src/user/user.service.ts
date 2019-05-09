@@ -1,3 +1,4 @@
+import { UserResponse } from './dto/response.user.dto';
 import { UtilsService } from '../main/helpers/utils.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { TagService } from './../tag/tag.service';
@@ -74,24 +75,31 @@ export class UserService {
         }
     }
 
-    async findAll(): Promise<User[]> {
-        return await this.userModel.find().exec();
+    async findAll(): Promise<UserResponse[]> {
+        const users = await this.userModel.find().exec();
+
+        const responseUsers: UserResponse[] = users.map(
+            user => new UserResponse(user),
+        );
+        return responseUsers;
     }
 
-    async findById(userId: string): Promise<User> {
+    async findById(userId: string): Promise<UserResponse> {
         this.utils.validateObjecId(userId);
 
-        return await this.userModel
+        const user = await this.userModel
             .findById(userId)
             .populate('twets tags')
             .exec();
+
+        return new UserResponse(user);
     }
 
     async findByEmail(userEmail: string): Promise<User> {
         return await this.userModel.findOne({ email: userEmail }).exec();
     }
 
-    async addTwet(userTwetDto: UserTwetDTO): Promise<User> {
+    async addTwet(userTwetDto: UserTwetDTO): Promise<UserResponse> {
         const user = await this.userModel.findById(userTwetDto.userId).exec();
         this.utils.checkModel(
             user,
@@ -99,20 +107,22 @@ export class UserService {
             'User->addTwet',
         );
 
-        const updatedUser = this.updateDate(user);
-        return await this.userModel
+        const userDate = this.updateDate(user);
+        const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTwetDto.userId,
                 {
-                    $set: { updatedAt: updatedUser.updatedAt },
+                    $set: { updatedAt: userDate.updatedAt },
                     $addToSet: { twets: userTwetDto.twetId },
                 },
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new UserResponse(updatedUser);
     }
 
-    async removeTwet(userTwetDto: UserTwetDTO): Promise<User> {
+    async removeTwet(userTwetDto: UserTwetDTO): Promise<UserResponse> {
         const user = await this.userModel.findById(userTwetDto.userId).exec();
         this.utils.checkModel(
             user,
@@ -120,20 +130,22 @@ export class UserService {
             'User->removeTwet',
         );
 
-        const updatedUser = this.updateDate(user);
-        return await this.userModel
+        const userDate = this.updateDate(user);
+        const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTwetDto.userId,
                 {
-                    $set: { updatedAt: updatedUser.updatedAt },
+                    $set: { updatedAt: userDate.updatedAt },
                     $pull: { twets: userTwetDto.twetId },
                 },
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new UserResponse(updatedUser);
     }
 
-    async addTag(userTagdto: UserTagDTO): Promise<User> {
+    async addTag(userTagdto: UserTagDTO): Promise<UserResponse> {
         const user = await this.userModel.findById(userTagdto.userId).exec();
         this.utils.checkModel(
             user,
@@ -141,20 +153,22 @@ export class UserService {
             'User->addTag',
         );
 
-        const updatedUser = this.updateDate(user);
-        return await this.userModel
+        const userDate = this.updateDate(user);
+        const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTagdto.userId,
                 {
-                    $set: { updatedAt: updatedUser.updatedAt },
+                    $set: { updatedAt: userDate.updatedAt },
                     $addToSet: { tags: userTagdto.tagId },
                 },
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new UserResponse(updatedUser);
     }
 
-    async removeTag(userTagDto: UserTagDTO): Promise<User> {
+    async removeTag(userTagDto: UserTagDTO): Promise<UserResponse> {
         const user = await this.userModel.findById(userTagDto.userId).exec();
         this.utils.checkModel(
             user,
@@ -162,17 +176,19 @@ export class UserService {
             'User->removeTag',
         );
 
-        const updatedUser = this.updateDate(user);
-        return await this.userModel
+        const userDate = this.updateDate(user);
+        const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTagDto.userId,
                 {
-                    $set: { updatedAt: updatedUser.updatedAt },
+                    $set: { updatedAt: userDate.updatedAt },
                     $pull: { tags: userTagDto.tagId },
                 },
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new UserResponse(updatedUser);
     }
 
     protected updateDate(
