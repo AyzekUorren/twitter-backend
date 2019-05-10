@@ -1,9 +1,9 @@
 ontainer:
-  image: node:alpine
+  image: node:latest
 
 check_task:
   node_modules_cache:
     folder: node_modules
-    fingerprint_script: cat package-lock.json
-    populate_script: npm install
-  test_script: npm test
+    fingerprint_script: cat yarn.lock
+    populate_script: yarn install
+  test_script: yarn test
