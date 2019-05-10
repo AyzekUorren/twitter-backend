@@ -2,6 +2,11 @@ container:
   image: node:latest
 
 check_task:
+  environment:
+    MONGO_URL: ENCRYPTED[e7acd9e1ac95a84e6d7f87202de659eae8f456cc2269f2e0b2e686e2f5c3044469b41e1d75992c9f75c94fb175be812f]
+    NODE_ENV: DEV
+    API_PREFIX: v1
+    JWT_SECRET: ENCRYPTED[72316783ca4e8b7ce79d0776cd95edc7b560ac48825f5e48add51afb936ebc944330f07f32f91c6c02576be430e5b11b]
   node_modules_cache:
     folder: node_modules
     fingerprint_script: cat package-lock.json
