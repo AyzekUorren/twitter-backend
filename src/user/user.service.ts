@@ -84,7 +84,7 @@ export class UserService {
         return responseUsers;
     }
 
-    async findById(userId: string): Promise<UserResponse> {
+    async findById(userId: string): Promise<UserResponse | {}> {
         this.utils.validateObjecId(userId);
 
         const user = await this.userModel
@@ -92,7 +92,7 @@ export class UserService {
             .populate('twets tags')
             .exec();
 
-        return new UserResponse(user);
+        return user ? new UserResponse(user) : {};
     }
 
     async findByEmail(userEmail: string): Promise<User> {

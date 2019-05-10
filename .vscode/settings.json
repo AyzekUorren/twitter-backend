@@ -1,43 +1,10 @@
 {
-  "prettier.alignObjectProperties": true,
-  "prettier.arrayExpand": true,
-  "prettier.arrowParens": true,
-  "prettier.autoScroll": false,
-  "prettier.bracesSpacing": true,
-  "prettier.bracketSpacing": true,
-  "prettier.breakBeforeElse": true,
-  "prettier.breakProperty": true,
-  "prettier.cssEnable": [
-    "css",
-    "less",
-    "scss",
-    "postcss"
-  ],
-  "prettier.flattenTernaries": true,
-  "prettier.graphqlEnable": [
-    "graphql"
-  ],
-  "prettier.javascriptEnable": [
-    "javascript",
-    "javascriptreact"
-  ],
-  "prettier.jsonEnable": [
-    "json"
-  ],
   "prettier.jsxBracketSameLine": true,
   "prettier.jsxSingleQuote": true,
-  "prettier.noSpaceEmptyFn": true,
-  "prettier.openOutput": true,
   "prettier.printWidth": 80,
   "prettier.semi": true,
   "prettier.singleQuote": true,
-  "prettier.spaceBeforeFunctionParen": true,
-  "prettier.statusBar": true,
   "prettier.tabWidth": 2,
   "prettier.trailingComma": "all",
-  "prettier.typescriptEnable": [
-    "typescript",
-    "typescriptreact"
-  ],
   "prettier.useTabs": false
 }

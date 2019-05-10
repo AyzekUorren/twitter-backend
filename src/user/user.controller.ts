@@ -20,6 +20,7 @@ import {
     ApiOkResponse,
 } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserResponse } from './dto/response.user.dto';
 
 @Controller('user')
 @ApiUseTags('user')
@@ -34,7 +35,7 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Get()
     @ApiResponse({ status: HttpStatus.OK, description: 'Users array' })
-    async findAll() {
+    async findAll(): Promise<UserResponse[]> {
         return await this.userService.findAll();
     }
 
