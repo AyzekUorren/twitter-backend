@@ -1,4 +1,7 @@
-import { TEST_USER } from '../testing/test.constants';
+import {
+    TEST_USER_RESPONSE,
+    TEST_USER,
+} from '../main/helpers/testing/test.constants';
 import { UserResponse } from './dto/response.user.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from '../database/database.module';
@@ -16,9 +19,14 @@ describe('UserController', () => {
     let userService: UserService;
     const fakeUserId: string = '5cd489a2d7b4130017874edf';
     let spy;
-    const resultArray: UserResponse[] = [TEST_USER, TEST_USER];
-    const resultEmpty: UserResponse[] = [];
-    const result: UserResponse = TEST_USER;
+    const resultArray: UserResponse[] = [
+        TEST_USER_RESPONSE,
+        TEST_USER_RESPONSE,
+    ];
+    const resultArrayEmpty: UserResponse[] = [];
+    const resultEmpty: UserResponse = new UserResponse({});
+    const result: UserResponse = TEST_USER_RESPONSE;
+    const resultUserDTO = TEST_USER;
 
     beforeAll(async () => {
         const userModule: TestingModule = await Test.createTestingModule({
@@ -39,7 +47,7 @@ describe('UserController', () => {
         spy = jest.fn();
     });
 
-    describe('UserController -> findAll', () => {
+    describe('findAll', () => {
         it('should return array of Users"', async () => {
             spy = jest
                 .spyOn(userService, 'findAll')
@@ -53,15 +61,17 @@ describe('UserController', () => {
         it('should return empty"', async () => {
             spy = jest
                 .spyOn(userService, 'findAll')
-                .mockImplementationOnce(() => Promise.resolve(resultEmpty));
+                .mockImplementationOnce(() =>
+                    Promise.resolve(resultArrayEmpty),
+                );
 
-            expect(await userController.findAll()).toBe(resultEmpty);
+            expect(await userController.findAll()).toBe(resultArrayEmpty);
             expect(spy).toHaveBeenCalledTimes(1);
             expect(spy).toHaveBeenCalledWith();
         });
     });
 
-    describe('UserController -> findById', () => {
+    describe('findById', () => {
         it('should throw BadRequestException"', async () => {
             spy = jest.spyOn(userService, 'findById');
 
@@ -93,7 +103,91 @@ describe('UserController', () => {
         });
     });
 
+    describe('create', () => {
+        it('should throw BadRequestException', async () => {
+            spy = jest
+                .spyOn(userService, 'create')
+                .mockImplementationOnce(resultUserDTO => {
+                    throw new BadRequestException();
+                });
+
+            expect(userController.create(resultUserDTO)).rejects.toThrow(
+                BadRequestException,
+            );
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(resultUserDTO);
+        });
+
+        it('should return empty', async () => {
+            spy = jest
+                .spyOn(userService, 'create')
+                .mockImplementationOnce(
+                    async resultUserDTO => await resultEmpty,
+                );
+
+            expect(await userController.create(resultUserDTO)).toBe(
+                resultEmpty,
+            );
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(resultUserDTO);
+        });
+
+        it('should return User', async () => {
+            spy = jest
+                .spyOn(userService, 'create')
+                .mockImplementationOnce(async resultUserDTO => await result);
+
+            expect(await userController.create(resultUserDTO)).toBe(result);
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(resultUserDTO);
+        });
+    });
+
+    describe('update', () => {
+        it('should throw BadRequestException', async () => {
+            spy = jest
+                .spyOn(userService, 'update')
+                .mockImplementationOnce((fakeUserId, resultUserDTO) => {
+                    throw new BadRequestException();
+                });
+
+            expect(
+                userController.update(fakeUserId, resultUserDTO),
+            ).rejects.toThrow(BadRequestException);
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(fakeUserId, resultUserDTO);
+        });
+
+        it('should return empty', async () => {
+            spy = jest
+                .spyOn(userService, 'update')
+                .mockImplementationOnce(
+                    async (fakeUserId, resultUserDTO) => await resultEmpty,
+                );
+
+            expect(await userController.update(fakeUserId, resultUserDTO)).toBe(
+                resultEmpty,
+            );
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(fakeUserId, resultUserDTO);
+        });
+
+        it('should return User', async () => {
+            spy = jest
+                .spyOn(userService, 'update')
+                .mockImplementationOnce(
+                    async (fakeUserId, resultUserDTO) => await result,
+                );
+
+            expect(await userController.update(fakeUserId, resultUserDTO)).toBe(
+                result,
+            );
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(fakeUserId, resultUserDTO);
+        });
+    });
+
     afterEach(() => {
-        jest.restoreAllMocks();
+        jest.clearAllMocks();
     });
 });
