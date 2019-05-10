@@ -187,6 +187,35 @@ describe('UserController', () => {
         });
     });
 
+    describe('remove', () => {
+        it('should throw BadRequestException', async () => {
+            spy = jest
+                .spyOn(userService, 'remove')
+                .mockImplementationOnce(fakeUserId => {
+                    throw new BadRequestException();
+                });
+
+            expect(userController.remove(fakeUserId)).rejects.toThrow(
+                BadRequestException,
+            );
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(fakeUserId);
+        });
+
+        it('should return status: ok', async () => {
+            spy = jest
+                .spyOn(userService, 'remove')
+                .mockImplementationOnce(async fakeUserId => await null);
+
+            expect(await userController.remove(fakeUserId)).toEqual({
+                status: 'ok',
+                message: 'User and all related objects are deleted.',
+            });
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(fakeUserId);
+        });
+    });
+
     afterEach(() => {
         jest.clearAllMocks();
     });
