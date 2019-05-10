@@ -1,9 +1,9 @@
 <h1 align="center">Twitter-Backend</h1>
 
-## App avilible on stage(online):
+## API avilible on stage(online):
 <ul>
-  <li><a href="https://twitter-app-backend-stage.herokuapp.com/v1">App</a></li>
-  <li><a href="https://twitter-app-backend-stage.herokuapp.com/docs">App docs</a></li>
+  <li><a href="https://twitter-app-backend-stage.herokuapp.com/v1">API</a></li>
+  <li><a href="https://twitter-app-backend-stage.herokuapp.com/docs">API docs</a></li>
 </ul>
 
 ## Environment

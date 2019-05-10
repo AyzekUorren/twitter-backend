@@ -10,7 +10,9 @@ export class UserResponse {
     readonly tags: string[];
 
     constructor(data: any) {
-        this.link = data.link ? data.link : 'not defined';
+        if (!!data.link) {
+            this.link = data.link;
+        }
         if (!!data.createdAt) {
             this.createdAt = data.createdAt;
         }
@@ -20,12 +22,20 @@ export class UserResponse {
         if (!!data.firstName) {
             this.firstName = data.firstName;
         }
-        this.middleName = data.middleName ? data.middleName : '';
-        this.lastName = data.lastName ? data.lastName : '';
+        if (!!data.middleName) {
+            this.middleName = data.middleName;
+        }
+        if (!!data.lastName) {
+            this.lastName = data.lastName;
+        }
         if (!!data.email) {
             this.email = data.email;
         }
-        this.twets = data.twets ? data.twets : [];
-        this.tags = data.tags ? data.tags : [];
+        if (!!data.twets) {
+            this.twets = data.twets;
+        }
+        if (!!data.tags) {
+            this.tags = data.tags;
+        }
     }
 }

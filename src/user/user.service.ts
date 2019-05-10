@@ -20,7 +20,7 @@ export class UserService {
         @Inject(UtilsService) private readonly utils: UtilsService,
     ) {}
 
-    async create(createUserDto: UserDto): Promise<User> {
+    async create(createUserDto: UserDto): Promise<UserResponse> {
         const user = await this.userModel
             .findOne({ email: createUserDto.email })
             .exec();
@@ -35,17 +35,23 @@ export class UserService {
             this.updateDate(createUserDto, true),
         );
 
-        return await createdUser.save();
+        const newUser = await createdUser.save();
+
+        return new UserResponse(newUser);
     }
 
-    async update(userId: string, userDto: UpdateUserDto): Promise<User> {
+    async update(
+        userId: string,
+        userDto: UpdateUserDto,
+    ): Promise<UserResponse> {
         this.utils.validateObjecId(userId);
 
         const user = await this.userModel.findById(userId).exec();
         this.utils.checkModel(user, `user:${userId} not found`, 'User->remove');
 
         userDto.updatedAt = new Date().toString();
-        return await this.userModel
+
+        const newUser = await this.userModel
             .findOneAndUpdate(
                 {
                     _id: userId,
@@ -54,6 +60,8 @@ export class UserService {
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new UserResponse(newUser);
     }
 
     async remove(userId: string) {
