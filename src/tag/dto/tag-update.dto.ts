@@ -1,7 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString, IsEmpty, IsOptional } from 'class-validator';
 
-export class UpdateTagDto {
+export class TagUpdateDto {
     @IsEmpty() updatedAt: string;
     @IsEmpty() createdAt: string;
 

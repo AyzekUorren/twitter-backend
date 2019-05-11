@@ -1,7 +1,7 @@
 import { UtilsService } from '../main/helpers/utils.service';
 import { MONGOOSE_UPDATE_OPTIONS } from './../constants';
-import { UpdateTagDto } from './dto/update-tag.dto';
-import { CreateTagDto } from './dto/create-tag.dto';
+import { TagUpdateDto } from './dto/tag-update.dto';
+import { TagDto } from './dto/tag.dto';
 import { Tag } from './interfaces/tag.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
@@ -13,7 +13,7 @@ export class TagService {
         @Inject(UtilsService) private readonly utils: UtilsService,
     ) {}
 
-    async create(createTagDto: CreateTagDto): Promise<Tag> {
+    async create(createTagDto: TagDto): Promise<Tag> {
         const createdTag = new this.tagModel(
             this.updateDate(createTagDto, true),
         );
@@ -41,7 +41,7 @@ export class TagService {
 
     async update(
         tagId: string,
-        updateTagDto: UpdateTagDto,
+        updateTagDto: TagUpdateDto,
         author: string,
     ): Promise<Tag> {
         this.utils.validateObjecId(tagId);
@@ -63,9 +63,9 @@ export class TagService {
     }
 
     protected updateDate(
-        tagDto: CreateTagDto | UpdateTagDto,
+        tagDto: TagDto | TagUpdateDto,
         isCreated = false,
-    ): CreateTagDto | UpdateTagDto {
+    ): TagDto | TagUpdateDto {
         const currentDateString = new Date().toString();
 
         tagDto.updatedAt = currentDateString;
