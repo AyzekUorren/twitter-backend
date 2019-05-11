@@ -26,8 +26,6 @@ Alternatively use `docker-compose.yml` -> **environment** section
 </details>
 
 ## Installation Docker
-<details>
-
 Create containers
 ```bash
 $ docker-compose up
@@ -42,10 +40,8 @@ If machine not available get ip from container with:
 ```bash
 $ docker ps
 ```
-</details>
 
 ## Installation localy
-<details>
 
 *Dont forget set `NODE_ENV` and `API_PREFIX` if you want using this method*
 
@@ -82,7 +78,7 @@ $ docker-compose down
 # rebuild with new files
 $ docker-compose up --force-recreate --build
 ```
-</details>
+
 <hr>
 
 ## Filename convention
