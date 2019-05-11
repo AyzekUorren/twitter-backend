@@ -1,6 +1,6 @@
-import { UpdateTwetDto } from './dto/update-twet.dto';
+import { UpdateTwetDto } from '../../dto/update-twet.dto';
 import { TwetTagDTO } from '../../dto/twet-tag.dto';
-import { TwetDto } from './dto/create-twet.dto';
+import { TwetDto } from '../../dto/create-twet.dto';
 import { TwetService } from './twet.service';
 import {
     Controller,

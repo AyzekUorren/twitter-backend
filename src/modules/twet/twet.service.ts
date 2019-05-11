@@ -1,7 +1,7 @@
 import { UtilsService } from '../utils/utils.service';
-import { UpdateTwetDto } from './dto/update-twet.dto';
+import { UpdateTwetDto } from '../../dto/update-twet.dto';
 import { TwetTagDTO } from '../../dto/twet-tag.dto';
-import { TwetDto } from './dto/create-twet.dto';
+import { TwetDto } from '../../dto/create-twet.dto';
 import { Twet } from './interfaces/twet.interface';
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Model } from 'mongoose';

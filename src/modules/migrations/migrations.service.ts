@@ -1,7 +1,7 @@
-import { CreateMigrationDto } from './dto/create-migration.dto';
 import { Migration } from './interfaces/migration.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
+import { CreateMigrationDto } from '../../dto/create-migration.dto';
 
 @Injectable()
 export class MigrationService {
