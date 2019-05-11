@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
-import { User } from './interfaces/user.interface';
 import {
     ApiUseTags,
     ApiResponse,
@@ -28,8 +27,8 @@ import { UserResponseDto } from './dto/user-response.dto';
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    async create(@Body() createUserDto: UserDto) {
-        return await this.userService.create(createUserDto);
+    async create(@Body() userDto: UserDto) {
+        return await this.userService.create(userDto);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -53,9 +52,9 @@ export class UserController {
     @ApiOkResponse({ description: 'Updated User' })
     async update(
         @Param('id') userId: string,
-        @Body() updateUserDto: UserUpdateDto,
+        @Body() userUpdateDto: UserUpdateDto,
     ) {
-        return await this.userService.update(userId, updateUserDto);
+        return await this.userService.update(userId, userUpdateDto);
     }
 
     @UseGuards(JwtAuthGuard)

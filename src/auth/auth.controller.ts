@@ -11,13 +11,13 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('signIn')
-    async createToken(@Body() authUser: UserAuthDto) {
-        return await this.authService.createToken(authUser);
+    async createToken(@Body() userAuthDto: UserAuthDto) {
+        return await this.authService.createToken(userAuthDto);
     }
 
     @Post('signUp')
-    async signUp(@Body() createUserDto: UserDto) {
-        return await this.authService.signUp(createUserDto);
+    async signUp(@Body() userDto: UserDto) {
+        return await this.authService.signUp(userDto);
     }
 
     @ApiBearerAuth()
