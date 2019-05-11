@@ -47,12 +47,6 @@ $ docker ps
 $ npm install
 ```
 
-## Filename convention
-### Data transfer objects (Dto)
-`moduleName.dto.ts` - base name for Dto object
-
-`moduleName-actionName.dto.ts` - action name for Dto object
-
 ## Running the app
 
 ### Local with npm
@@ -83,6 +77,15 @@ $ docker-compose down
 # rebuild with new files
 $ docker-compose up --force-recreate --build
 ```
+
+<hr>
+
+## Filename convention
+### Data transfer objects (Dto)
+`moduleName.dto.ts` - base name for Dto object
+
+`moduleName-actionName.dto.ts` - action name for Dto object
+<hr>
 
 ## Test
 
