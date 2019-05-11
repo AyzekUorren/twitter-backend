@@ -1,4 +1,4 @@
-import { UtilsModule } from './main/helpers/utils.module';
+import { UtilsModule } from './modules/utils/utils.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TagModule } from './modules/tag/tag.module';
 import { TwetModule } from './modules/twet/twet.module';
