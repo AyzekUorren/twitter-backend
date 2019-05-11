@@ -1,6 +1,6 @@
-import { UpdateTwetDto } from './dto/update-twet.dto';
-import { TwetTagDTO } from '../main/dto/twet-tag.dto';
-import { TwetDto } from './dto/create-twet.dto';
+import { TwetUpdateDto } from './dto/twet-update.dto';
+import { TwetTagDTO } from './dto/twet-tag.dto';
+import { TwetDto } from './dto/twet.dto';
 import { TwetService } from './twet.service';
 import {
     Controller,
@@ -66,7 +66,7 @@ export class TwetController {
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async update(
         @Param('id') twetId: string,
-        @Body() updateTwetDto: UpdateTwetDto,
+        @Body() updateTwetDto: TwetUpdateDto,
         @Req() request,
     ): Promise<Twet> {
         return await this.twetService.update(

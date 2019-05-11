@@ -1,9 +1,9 @@
 import { UtilsService } from '../main/helpers/utils.service';
-import { UpdateTwetDto } from './dto/update-twet.dto';
-import { TwetTagDTO } from '../main/dto/twet-tag.dto';
-import { TwetDto } from './dto/create-twet.dto';
+import { TwetUpdateDto } from './dto/twet-update.dto';
+import { TwetTagDTO } from './dto/twet-tag.dto';
+import { TwetDto } from './dto/twet.dto';
 import { Twet } from './interfaces/twet.interface';
-import { Inject, Injectable, forwardRef, Logger } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
 import { TagService } from '../tag/tag.service';
@@ -27,7 +27,7 @@ export class TwetService {
 
     async update(
         twetId: string,
-        twetDto: UpdateTwetDto,
+        twetDto: TwetUpdateDto,
         author: string,
     ): Promise<Twet> {
         this.utils.validateObjecId(twetId);
