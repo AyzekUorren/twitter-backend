@@ -1,7 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString, IsMongoId, IsEmpty, IsOptional } from 'class-validator';
 
-export class UpdateTwetDto {
+export class TwetUpdateDto {
     @IsEmpty() updatedAt: string;
 
     @IsOptional()
