@@ -6,6 +6,12 @@
   <li><a href="https://twitter-app-backend-stage.herokuapp.com/docs">API docs</a></li>
 </ul>
 
+## Filename convention
+### Data transfer objects (Dto)
+`moduleName.dto.ts` - base name for Dto object
+
+`moduleName-actionName.dto.ts` - action name for Dto object
+
 ## Environment
 ### Environment priority
 <ol>
@@ -23,21 +29,11 @@ You can look at example: **`template.env`**
 Alternatively use `docker-compose.yml` -> **environment** section
 
 ## Installation Docker
-
 Create containers
 ```bash
 $ docker-compose up
 ```
 Dont forget, read additional comands `docker-compose` in the **Running the app -> [Docker section](#docker)**
-
-After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
-```bash
-$ docker-machine ip default
-```
-If machine not available get ip from container with:
-```bash
-$ docker ps
-```
 
 ## Installation localy
 
@@ -46,7 +42,6 @@ $ docker ps
 ```bash
 $ npm install
 ```
-
 ## Running the app
 
 ### Local with npm
@@ -78,6 +73,15 @@ $ docker-compose down
 $ docker-compose up --force-recreate --build
 ```
 
+After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
+```bash
+$ docker-machine ip default
+```
+If machine not available get ip from container with:
+```bash
+$ docker ps
+```
+
 ## Test
 
 ```bash
@@ -93,7 +97,9 @@ $ npm run test:cov
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
-
+<details>
+  <summary>More Details about Nest</summary>
+  
 [travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
 [travis-url]: https://travis-ci.org/nestjs/nest
 [linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
@@ -116,11 +122,6 @@ $ npm run test:cov
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
@@ -134,3 +135,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
   Nest is [MIT licensed](LICENSE).
+</details>

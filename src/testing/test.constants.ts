@@ -1,7 +1,7 @@
-import { UserDto } from './../../../user/dto/user.dto';
-import { UserResponse } from '../../../user/dto/response.user.dto';
+import { UserResponseDto } from './../user/dto/user-response.dto';
+import { UserDto } from '../user/dto/user.dto';
 
-export const TEST_USER_RESPONSE: UserResponse = {
+export const TEST_USER_RESPONSE: UserResponseDto = {
     link: 'testLink',
     createdAt: 'Sat May 11 2019',
     updatedAt: 'Sat May 11 2019',

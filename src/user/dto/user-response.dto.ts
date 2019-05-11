@@ -1,4 +1,4 @@
-export class UserResponse {
+export class UserResponseDto {
     readonly link: string;
     readonly createdAt: string;
     readonly updatedAt: string;

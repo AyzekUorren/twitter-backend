@@ -5,7 +5,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { userProviders } from './user.providers';
 import { DatabaseModule } from '../database/database.module';
-import { UtilsModule } from '../main/helpers/utils.module';
+import { UtilsModule } from '../utils/utils.module';
 
 @Module({
     imports: [

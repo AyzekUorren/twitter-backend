@@ -1,7 +1,7 @@
-import { UpdateTagDto } from './dto/update-tag.dto';
+import { TagUpdateDto } from './dto/tag-update.dto';
 import { UserService } from './../user/user.service';
 import { Tag } from './interfaces/tag.interface';
-import { CreateTagDto } from './dto/create-tag.dto';
+import { TagDto } from './dto/tag.dto';
 import { TagService } from './tag.service';
 import {
     Controller,
@@ -38,7 +38,7 @@ export class TagController {
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiCreatedResponse({ description: 'Created Tag' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-    async create(@Body() createTagDto: CreateTagDto, @Req() request) {
+    async create(@Body() createTagDto: TagDto, @Req() request) {
         createTagDto.author = request.user.id;
         const createdTag = await this.tagService.create(createTagDto);
         await this.userService.addTag({
@@ -72,7 +72,7 @@ export class TagController {
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async update(
         @Param('id') tagId: string,
-        @Body() updateTagDto: UpdateTagDto,
+        @Body() updateTagDto: TagUpdateDto,
         @Req() request,
     ) {
         return await this.tagService.update(

@@ -1,5 +1,5 @@
 import { UserDto } from './../user/dto/user.dto';
-import { AuthUserDto } from './../user/dto/auth-user.dto';
+import { UserAuthDto } from '../user/dto/user-auth.dto';
 import {
     Injectable,
     Logger,
@@ -17,7 +17,7 @@ export class AuthService {
         private readonly userService: UserService,
     ) {}
 
-    async createToken(authUser: AuthUserDto) {
+    async createToken(authUser: UserAuthDto) {
         const SignInuser = await this.userService.findByEmail(
             authUser.username,
         );

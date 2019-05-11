@@ -1,7 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsMongoId } from 'class-validator';
 
-export class UserTagDTO {
+export class UserTagDto {
     @IsMongoId()
     @ApiModelProperty({
         required: true,

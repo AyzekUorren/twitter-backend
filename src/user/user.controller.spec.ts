@@ -1,14 +1,11 @@
-import {
-    TEST_USER_RESPONSE,
-    TEST_USER,
-} from '../main/helpers/testing/test.constants';
-import { UserResponse } from './dto/response.user.dto';
+import { TEST_USER_RESPONSE, TEST_USER } from '../testing/test.constants';
+import { UserResponseDto } from './dto/user-response.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from '../database/database.module';
 import { forwardRef, BadRequestException } from '@nestjs/common';
 import { TwetModule } from '../twet/twet.module';
 import { TagModule } from '../tag/tag.module';
-import { UtilsModule } from '../main/helpers/utils.module';
+import { UtilsModule } from '../utils/utils.module';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { userProviders } from './user.providers';
@@ -19,13 +16,13 @@ describe('UserController', () => {
     let userService: UserService;
     const fakeUserId: string = '5cd489a2d7b4130017874edf';
     let spy;
-    const resultArray: UserResponse[] = [
+    const resultArray: UserResponseDto[] = [
         TEST_USER_RESPONSE,
         TEST_USER_RESPONSE,
     ];
-    const resultArrayEmpty: UserResponse[] = [];
-    const resultEmpty: UserResponse = new UserResponse({});
-    const result: UserResponse = TEST_USER_RESPONSE;
+    const resultArrayEmpty: UserResponseDto[] = [];
+    const resultEmpty: UserResponseDto = new UserResponseDto({});
+    const result: UserResponseDto = TEST_USER_RESPONSE;
     const resultUserDTO = TEST_USER;
 
     beforeAll(async () => {

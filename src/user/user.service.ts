@@ -1,10 +1,10 @@
-import { UserResponse } from './dto/response.user.dto';
-import { UtilsService } from '../main/helpers/utils.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserResponseDto } from './dto/user-response.dto';
+import { UtilsService } from '../utils/utils.service';
+import { UserUpdateDto } from './dto/user-update.dto';
 import { TagService } from './../tag/tag.service';
 import { TwetService } from './../twet/twet.service';
-import { UserTwetDTO } from '../main/dto/user-twet.dto';
-import { UserTagDTO } from '../main/dto/user-tag.dto';
+import { UserTwetDto } from './dto/user-twet.dto';
+import { UserTagDto } from './dto/user-tag.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { UserDto } from './dto/user.dto';
@@ -20,7 +20,7 @@ export class UserService {
         @Inject(UtilsService) private readonly utils: UtilsService,
     ) {}
 
-    async create(createUserDto: UserDto): Promise<UserResponse> {
+    async create(createUserDto: UserDto): Promise<UserResponseDto> {
         const user = await this.userModel
             .findOne({ email: createUserDto.email })
             .exec();
@@ -37,13 +37,13 @@ export class UserService {
 
         const newUser = await createdUser.save();
 
-        return new UserResponse(newUser);
+        return new UserResponseDto(newUser);
     }
 
     async update(
         userId: string,
-        userDto: UpdateUserDto,
-    ): Promise<UserResponse> {
+        userDto: UserUpdateDto,
+    ): Promise<UserResponseDto> {
         this.utils.validateObjecId(userId);
 
         const user = await this.userModel.findById(userId).exec();
@@ -61,7 +61,7 @@ export class UserService {
             )
             .exec();
 
-        return new UserResponse(newUser);
+        return new UserResponseDto(newUser);
     }
 
     async remove(userId: string) {
@@ -83,16 +83,16 @@ export class UserService {
         }
     }
 
-    async findAll(): Promise<UserResponse[]> {
+    async findAll(): Promise<UserResponseDto[]> {
         const users = await this.userModel.find().exec();
 
-        const responseUsers: UserResponse[] = users.map(
-            user => new UserResponse(user),
+        const responseUsers: UserResponseDto[] = users.map(
+            user => new UserResponseDto(user),
         );
         return responseUsers;
     }
 
-    async findById(userId: string): Promise<UserResponse | {}> {
+    async findById(userId: string): Promise<UserResponseDto | {}> {
         this.utils.validateObjecId(userId);
 
         const user = await this.userModel
@@ -100,14 +100,14 @@ export class UserService {
             .populate('twets tags')
             .exec();
 
-        return user ? new UserResponse(user) : {};
+        return user ? new UserResponseDto(user) : {};
     }
 
     async findByEmail(userEmail: string): Promise<User> {
         return await this.userModel.findOne({ email: userEmail }).exec();
     }
 
-    async addTwet(userTwetDto: UserTwetDTO): Promise<UserResponse> {
+    async addTwet(userTwetDto: UserTwetDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTwetDto.userId).exec();
         this.utils.checkModel(
             user,
@@ -127,10 +127,10 @@ export class UserService {
             )
             .exec();
 
-        return new UserResponse(updatedUser);
+        return new UserResponseDto(updatedUser);
     }
 
-    async removeTwet(userTwetDto: UserTwetDTO): Promise<UserResponse> {
+    async removeTwet(userTwetDto: UserTwetDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTwetDto.userId).exec();
         this.utils.checkModel(
             user,
@@ -150,10 +150,10 @@ export class UserService {
             )
             .exec();
 
-        return new UserResponse(updatedUser);
+        return new UserResponseDto(updatedUser);
     }
 
-    async addTag(userTagdto: UserTagDTO): Promise<UserResponse> {
+    async addTag(userTagdto: UserTagDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTagdto.userId).exec();
         this.utils.checkModel(
             user,
@@ -173,10 +173,10 @@ export class UserService {
             )
             .exec();
 
-        return new UserResponse(updatedUser);
+        return new UserResponseDto(updatedUser);
     }
 
-    async removeTag(userTagDto: UserTagDTO): Promise<UserResponse> {
+    async removeTag(userTagDto: UserTagDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTagDto.userId).exec();
         this.utils.checkModel(
             user,
@@ -196,7 +196,7 @@ export class UserService {
             )
             .exec();
 
-        return new UserResponse(updatedUser);
+        return new UserResponseDto(updatedUser);
     }
 
     protected updateDate(
