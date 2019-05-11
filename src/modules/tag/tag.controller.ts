@@ -1,5 +1,5 @@
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { UserService } from '../../user/user.service';
+import { UserService } from '../user/user.service';
 import { Tag } from './interfaces/tag.interface';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { TagService } from './tag.service';

@@ -1,14 +1,14 @@
 import {
     TEST_USER_RESPONSE,
     TEST_USER,
-} from '../main/helpers/testing/test.constants';
+} from '../../main/helpers/testing/test.constants';
 import { UserResponse } from './dto/response.user.dto';
 import { Test, TestingModule } from '@nestjs/testing';
-import { DatabaseModule } from '../database/database.module';
+import { DatabaseModule } from '../../database/database.module';
 import { forwardRef, BadRequestException } from '@nestjs/common';
-import { TwetModule } from '../modules/twet/twet.module';
-import { TagModule } from '../modules/tag/tag.module';
-import { UtilsModule } from '../main/helpers/utils.module';
+import { TwetModule } from '../twet/twet.module';
+import { TagModule } from '../tag/tag.module';
+import { UtilsModule } from '../../main/helpers/utils.module';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { userProviders } from './user.providers';

@@ -1,6 +1,6 @@
 import { UtilsModule } from '../../main/helpers/utils.module';
 import { TagModule } from '../tag/tag.module';
-import { UserModule } from '../../user/user.module';
+import { UserModule } from '../user/user.module';
 import { TwetService } from './twet.service';
 import { TwetController } from './twet.controller';
 import { Module, forwardRef } from '@nestjs/common';

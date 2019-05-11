@@ -2,7 +2,7 @@ import { UtilsModule } from './main/helpers/utils.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TagModule } from './modules/tag/tag.module';
 import { TwetModule } from './modules/twet/twet.module';
-import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

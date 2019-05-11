@@ -1,4 +1,4 @@
-import { UserModule } from '../../user/user.module';
+import { UserModule } from '../user/user.module';
 import { ConfigModule } from '../../config/config.module';
 import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';

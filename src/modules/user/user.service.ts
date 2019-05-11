@@ -1,15 +1,15 @@
 import { UserResponse } from './dto/response.user.dto';
-import { UtilsService } from '../main/helpers/utils.service';
+import { UtilsService } from '../../main/helpers/utils.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { TagService } from '../modules/tag/tag.service';
-import { TwetService } from '../modules/twet/twet.service';
-import { UserTwetDTO } from '../main/dto/user-twet.dto';
-import { UserTagDTO } from '../main/dto/user-tag.dto';
+import { TagService } from '../tag/tag.service';
+import { TwetService } from '../twet/twet.service';
+import { UserTwetDTO } from '../../main/dto/user-twet.dto';
+import { UserTagDTO } from '../../main/dto/user-tag.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { UserDto } from './dto/user.dto';
 import { User } from './interfaces/user.interface';
-import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
+import { MONGOOSE_UPDATE_OPTIONS } from '../../constants';
 
 @Injectable()
 export class UserService {
