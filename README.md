@@ -8,7 +8,6 @@
 
 ## Environment
 <details>
-  <summary>more</summary>
 
 ### Environment priority
 <ol>
@@ -28,7 +27,6 @@ Alternatively use `docker-compose.yml` -> **environment** section
 
 ## Installation Docker
 <details>
-  <summary>more</summary>
 
 Create containers
 ```bash
@@ -48,7 +46,7 @@ $ docker ps
 
 ## Installation localy
 <details>
-  <summary>more</summary>
+
 *Dont forget set `NODE_ENV` and `API_PREFIX` if you want using this method*
 
 ```bash
