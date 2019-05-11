@@ -1,14 +1,14 @@
 import { MigrationService } from './migrations.service';
 import { Migration } from './interfaces/migration.interface';
 import { Controller, Body, Post, Get } from '@nestjs/common';
-import { CreateMigrationDto } from '../../dto/create-migration.dto';
+import { MigrationDto } from '../../dto/migration.dto';
 
 @Controller('migrations')
 export class MigrationController {
     constructor(private readonly migrationService: MigrationService) {}
 
     @Post()
-    async create(@Body() createMigrationDto: CreateMigrationDto) {
+    async create(@Body() createMigrationDto: MigrationDto) {
         return this.migrationService.create(createMigrationDto);
     }
 

@@ -1,7 +1,7 @@
 import { Migration } from './interfaces/migration.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { CreateMigrationDto } from '../../dto/create-migration.dto';
+import { MigrationDto } from '../../dto/migration.dto';
 
 @Injectable()
 export class MigrationService {
@@ -9,7 +9,7 @@ export class MigrationService {
         @Inject('MIGRATION_MODEL') private readonly migration: Model<Migration>,
     ) {}
 
-    async create(createMigrationDto: CreateMigrationDto): Promise<Migration> {
+    async create(createMigrationDto: MigrationDto): Promise<Migration> {
         const createdMigration = new this.migration(createMigrationDto);
         return await createdMigration.save();
     }
