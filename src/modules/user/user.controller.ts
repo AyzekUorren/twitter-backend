@@ -1,4 +1,4 @@
-import { UpdateUserDto } from '../../dto/update-user.dto';
+import { UserUpdateDto } from '../../dto/user-update.dto';
 import { UserResponse } from '../../dto/response.user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {
@@ -52,9 +52,9 @@ export class UserController {
     @ApiOkResponse({ description: 'Updated User' })
     async update(
         @Param('id') userId: string,
-        @Body() updateUserDto: UpdateUserDto,
+        @Body() userUpdateDto: UserUpdateDto,
     ) {
-        return await this.userService.update(userId, updateUserDto);
+        return await this.userService.update(userId, userUpdateDto);
     }
 
     @UseGuards(JwtAuthGuard)

@@ -1,5 +1,5 @@
-import { UserDto } from '../../../modules/user/dto/user.dto';
-import { UserResponse } from '../../../modules/user/dto/response.user.dto';
+import { UserResponse } from '../../../dto/response.user.dto';
+import { UserDto } from '../../../dto/user.dto';
 
 export const TEST_USER_RESPONSE: UserResponse = {
     link: 'testLink',
