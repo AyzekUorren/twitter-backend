@@ -38,15 +38,6 @@ $ docker-compose up
 ```
 Dont forget, read additional comands `docker-compose` in the **Running the app -> [Docker section](#docker)**
 
-After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
-```bash
-$ docker-machine ip default
-```
-If machine not available get ip from container with:
-```bash
-$ docker ps
-```
-
 ## Installation localy
 
 *Dont forget set `NODE_ENV` and `API_PREFIX` if you want using this method*
@@ -83,6 +74,15 @@ $ docker-compose down
 
 # rebuild with new files
 $ docker-compose up --force-recreate --build
+```
+
+After start app will available on `docker-machine` ip, at `port:3000` by default, you can check ip with:
+```bash
+$ docker-machine ip default
+```
+If machine not available get ip from container with:
+```bash
+$ docker ps
 ```
 
 ## Test
