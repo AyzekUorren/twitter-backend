@@ -7,6 +7,9 @@
 </ul>
 
 ## Environment
+<details>
+  <summary>Environment</summary>
+
 ### Environment priority
 <ol>
   <li>(machine) process.env</li>
@@ -21,8 +24,11 @@ You can look at example: **`template.env`**
 *You can change it in `Docker-compose.yml`*
 
 Alternatively use `docker-compose.yml` -> **environment** section
+</details>
 
 ## Installation Docker
+<details>
+  <summary>Installation Docker</summary>
 
 Create containers
 ```bash
@@ -38,15 +44,16 @@ If machine not available get ip from container with:
 ```bash
 $ docker ps
 ```
+</details>
 
 ## Installation localy
-
+<details>
+  <summary>Installation localy</summary>
 *Dont forget set `NODE_ENV` and `API_PREFIX` if you want using this method*
 
 ```bash
 $ npm install
 ```
-
 ## Running the app
 
 ### Local with npm
@@ -77,7 +84,7 @@ $ docker-compose down
 # rebuild with new files
 $ docker-compose up --force-recreate --build
 ```
-
+</details>
 <hr>
 
 ## Filename convention
