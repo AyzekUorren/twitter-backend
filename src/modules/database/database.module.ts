@@ -1,4 +1,4 @@
-import { ConfigModule } from './../config/config.module';
+import { ConfigModule } from '../../config/config.module';
 import { Module } from '@nestjs/common';
 import { databaseProviders } from './database.providers';
 

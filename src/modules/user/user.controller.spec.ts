@@ -4,7 +4,7 @@ import {
 } from '../../main/helpers/testing/test.constants';
 import { UserResponse } from './dto/response.user.dto';
 import { Test, TestingModule } from '@nestjs/testing';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '../database/database.module';
 import { forwardRef, BadRequestException } from '@nestjs/common';
 import { TwetModule } from '../twet/twet.module';
 import { TagModule } from '../tag/tag.module';

@@ -4,7 +4,7 @@ import { UserModule } from '../user/user.module';
 import { TwetService } from './twet.service';
 import { TwetController } from './twet.controller';
 import { Module, forwardRef } from '@nestjs/common';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '../database/database.module';
 import { TwetProviders } from './twet.providers';
 
 @Module({

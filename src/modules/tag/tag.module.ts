@@ -3,7 +3,7 @@ import { TagService } from './tag.service';
 import { TagController } from './tag.controller';
 import { UserModule } from '../user/user.module';
 import { Module, forwardRef } from '@nestjs/common';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '../database/database.module';
 import { UtilsModule } from '../utils/utils.module';
 
 @Module({
