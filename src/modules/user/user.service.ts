@@ -1,13 +1,13 @@
-import { UserResponse } from './dto/response.user.dto';
+import { UserResponse } from '../../dto/response.user.dto';
 import { UtilsService } from '../utils/utils.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from '../../dto/update-user.dto';
 import { TagService } from '../tag/tag.service';
 import { TwetService } from '../twet/twet.service';
 import { UserTwetDTO } from '../../dto/user-twet.dto';
 import { UserTagDTO } from '../../dto/user-tag.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from '../../dto/user.dto';
 import { User } from './interfaces/user.interface';
 import { MONGOOSE_UPDATE_OPTIONS } from '../../constants';
 

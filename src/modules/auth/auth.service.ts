@@ -1,5 +1,5 @@
-import { UserDto } from '../user/dto/user.dto';
-import { AuthUserDto } from '../user/dto/auth-user.dto';
+import { UserDto } from '../../dto/user.dto';
+import { AuthUserDto } from '../../dto/auth-user.dto';
 import {
     Injectable,
     Logger,

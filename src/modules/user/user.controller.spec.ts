@@ -2,7 +2,7 @@ import {
     TEST_USER_RESPONSE,
     TEST_USER,
 } from '../../main/helpers/testing/test.constants';
-import { UserResponse } from './dto/response.user.dto';
+import { UserResponse } from '../../dto/response.user.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from '../database/database.module';
 import { forwardRef, BadRequestException } from '@nestjs/common';

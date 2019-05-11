@@ -1,3 +1,5 @@
+import { UpdateUserDto } from '../../dto/update-user.dto';
+import { UserResponse } from '../../dto/response.user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {
     Controller,
@@ -9,9 +11,7 @@ import {
     Put,
     UseGuards,
 } from '@nestjs/common';
-import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
-import { User } from './interfaces/user.interface';
 import {
     ApiUseTags,
     ApiResponse,
@@ -19,8 +19,7 @@ import {
     ApiBadRequestResponse,
     ApiOkResponse,
 } from '@nestjs/swagger';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserResponse } from './dto/response.user.dto';
+import { UserDto } from '../../dto/user.dto';
 
 @Controller('user')
 @ApiUseTags('user')
