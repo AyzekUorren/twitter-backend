@@ -1,5 +1,5 @@
 import { UpdateTwetDto } from './dto/update-twet.dto';
-import { TwetTagDTO } from '../main/dto/twet-tag.dto';
+import { TwetTagDTO } from '../../main/dto/twet-tag.dto';
 import { TwetDto } from './dto/create-twet.dto';
 import { TwetService } from './twet.service';
 import {
@@ -21,8 +21,8 @@ import {
     ApiUnauthorizedResponse,
     ApiBearerAuth,
 } from '@nestjs/swagger';
-import { UserService } from '../user/user.service';
-import { JwtAuthGuard } from '../modules/auth/guards/jwt-auth.guard';
+import { UserService } from '../../user/user.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('twet')
 @ApiUseTags('twet')

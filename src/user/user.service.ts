@@ -2,7 +2,7 @@ import { UserResponse } from './dto/response.user.dto';
 import { UtilsService } from '../main/helpers/utils.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { TagService } from '../modules/tag/tag.service';
-import { TwetService } from './../twet/twet.service';
+import { TwetService } from '../modules/twet/twet.service';
 import { UserTwetDTO } from '../main/dto/user-twet.dto';
 import { UserTagDTO } from '../main/dto/user-tag.dto';
 import { Inject, Injectable } from '@nestjs/common';

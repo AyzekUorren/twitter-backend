@@ -1,5 +1,5 @@
 import { TagModule } from '../modules/tag/tag.module';
-import { TwetModule } from './../twet/twet.module';
+import { TwetModule } from '../modules/twet/twet.module';
 import { Module, forwardRef } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
