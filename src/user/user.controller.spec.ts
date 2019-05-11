@@ -1,7 +1,4 @@
-import {
-    TEST_USER_RESPONSE,
-    TEST_USER,
-} from '../main/helpers/testing/test.constants';
+import { TEST_USER_RESPONSE, TEST_USER } from '../testing/test.constants';
 import { UserResponseDto } from './dto/user-response.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from '../database/database.module';
