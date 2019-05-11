@@ -1,5 +1,5 @@
 import { UserResponseDto } from './dto/user-response.dto';
-import { UtilsService } from '../main/helpers/utils.service';
+import { UtilsService } from '../utils/utils.service';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { TagService } from './../tag/tag.service';
 import { TwetService } from './../twet/twet.service';

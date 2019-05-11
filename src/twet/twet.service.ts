@@ -1,4 +1,4 @@
-import { UtilsService } from '../main/helpers/utils.service';
+import { UtilsService } from '../utils/utils.service';
 import { TwetUpdateDto } from './dto/twet-update.dto';
 import { TwetTagDTO } from './dto/twet-tag.dto';
 import { TwetDto } from './dto/twet.dto';
