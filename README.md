@@ -6,9 +6,16 @@
   <li><a href="https://twitter-app-backend-stage.herokuapp.com/docs">API docs</a></li>
 </ul>
 
-## Environment
-<details>
+<hr>
 
+## Filename convention
+### Data transfer objects (Dto)
+`moduleName.dto.ts` - base name for Dto object
+
+`moduleName-actionName.dto.ts` - action name for Dto object
+<hr>
+
+## Environment
 ### Environment priority
 <ol>
   <li>(machine) process.env</li>
@@ -23,7 +30,6 @@ You can look at example: **`template.env`**
 *You can change it in `Docker-compose.yml`*
 
 Alternatively use `docker-compose.yml` -> **environment** section
-</details>
 
 ## Installation Docker
 Create containers
@@ -78,15 +84,6 @@ $ docker-compose down
 # rebuild with new files
 $ docker-compose up --force-recreate --build
 ```
-
-<hr>
-
-## Filename convention
-### Data transfer objects (Dto)
-`moduleName.dto.ts` - base name for Dto object
-
-`moduleName-actionName.dto.ts` - action name for Dto object
-<hr>
 
 ## Test
 
