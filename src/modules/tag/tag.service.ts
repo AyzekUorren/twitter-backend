@@ -1,5 +1,5 @@
-import { UtilsService } from '../main/helpers/utils.service';
-import { MONGOOSE_UPDATE_OPTIONS } from './../constants';
+import { UtilsService } from '../../main/helpers/utils.service';
+import { MONGOOSE_UPDATE_OPTIONS } from '../../constants';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { Tag } from './interfaces/tag.interface';

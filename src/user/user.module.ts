@@ -1,4 +1,4 @@
-import { TagModule } from './../tag/tag.module';
+import { TagModule } from '../modules/tag/tag.module';
 import { TwetModule } from './../twet/twet.module';
 import { Module, forwardRef } from '@nestjs/common';
 import { UserController } from './user.controller';

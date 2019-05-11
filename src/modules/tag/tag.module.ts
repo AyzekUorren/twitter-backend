@@ -1,10 +1,10 @@
 import { TagProviders } from './tag.providers';
 import { TagService } from './tag.service';
 import { TagController } from './tag.controller';
-import { UserModule } from '../user/user.module';
+import { UserModule } from '../../user/user.module';
 import { Module, forwardRef } from '@nestjs/common';
-import { DatabaseModule } from '../database/database.module';
-import { UtilsModule } from '../main/helpers/utils.module';
+import { DatabaseModule } from '../../database/database.module';
+import { UtilsModule } from '../../main/helpers/utils.module';
 
 @Module({
     imports: [
