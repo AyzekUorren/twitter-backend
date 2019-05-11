@@ -19,8 +19,8 @@ import {
     ApiBadRequestResponse,
     ApiOkResponse,
 } from '@nestjs/swagger';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserResponse } from './dto/response.user.dto';
+import { UserUpdateDto } from './dto/user-update.dto';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Controller('user')
 @ApiUseTags('user')
@@ -35,7 +35,7 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Get()
     @ApiResponse({ status: HttpStatus.OK, description: 'Users array' })
-    async findAll(): Promise<UserResponse[]> {
+    async findAll(): Promise<UserResponseDto[]> {
         return await this.userService.findAll();
     }
 
@@ -53,7 +53,7 @@ export class UserController {
     @ApiOkResponse({ description: 'Updated User' })
     async update(
         @Param('id') userId: string,
-        @Body() updateUserDto: UpdateUserDto,
+        @Body() updateUserDto: UserUpdateDto,
     ) {
         return await this.userService.update(userId, updateUserDto);
     }

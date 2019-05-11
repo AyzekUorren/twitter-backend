@@ -2,7 +2,7 @@ import { UserDto } from '../user/dto/user.dto';
 import { Controller, Post, Body, Req, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
-import { AuthUserDto } from '../user/dto/auth-user.dto';
+import { UserAuthDto } from '../user/dto/user-auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
@@ -11,7 +11,7 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('signIn')
-    async createToken(@Body() authUser: AuthUserDto) {
+    async createToken(@Body() authUser: UserAuthDto) {
         return await this.authService.createToken(authUser);
     }
 

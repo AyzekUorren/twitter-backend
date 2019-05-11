@@ -1,7 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsMongoId } from 'class-validator';
 
-export class UserTwetDTO {
+export class UserTwetDto {
     @IsMongoId()
     @ApiModelProperty({
         required: true,
