@@ -9,6 +9,5 @@
   "semi": true,
   "bracketSpacing": true,
   "arrowParens": "avoid",
-  "parser": "typescript",
-  "alignObjectProperties": false,
+  "parser": "typescript"
 }
