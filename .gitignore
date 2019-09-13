@@ -12,3 +12,9 @@ data
 
 #MacOS
 .DS_Store
+
+#IDE
+.idea
+
+#Coverage Tests
+coverage
