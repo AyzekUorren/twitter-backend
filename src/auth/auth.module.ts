@@ -11,6 +11,7 @@ import { ConfigService } from '../config/config.service';
 @Module({
     imports: [
         forwardRef(() => UserModule),
+        forwardRef(() => ConfigModule),
         PassportModule.register({ defaultStrategy: 'jwt', property: 'user' }),
         JwtModule.registerAsync({
             imports: [ConfigModule],

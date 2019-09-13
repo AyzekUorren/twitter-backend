@@ -10,6 +10,7 @@ export const databaseProviders = [
             await mongoose.connect(config.get('MONGO_URL'), {
                 useNewUrlParser: true,
                 useFindAndModify: false,
+                useUnifiedTopology: true,
             }),
         inject: [ConfigService],
     },
