@@ -4,6 +4,9 @@
   "description": "",
   "author": "",
   "license": "MIT",
+  "engines": {
+    "node": "12.10.0"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "prebuild": "rimraf dist",
