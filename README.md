@@ -19,6 +19,9 @@
   <li>(file) Name.env</li>
 </ol>
 
+### Node version
+Node version: <strong>v12.10.0 +</strong>
+
 ### Environment settings
 Before start, need setup **`NAME.env`**
 You can look at example: **`template.env`**
