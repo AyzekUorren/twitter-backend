@@ -10,32 +10,29 @@ export class UserResponseDto {
     readonly tags: string[];
 
     constructor(data: any) {
-        if (!!data.link) {
-            this.link = data.link;
+        UserResponseDto.SetValueIfExists(this, data, 'link');
+        UserResponseDto.SetValueIfExists(this, data, 'createdAt');
+        UserResponseDto.SetValueIfExists(this, data, 'updatedAt');
+        UserResponseDto.SetValueIfExists(this, data, 'firstName');
+        UserResponseDto.SetValueIfExists(this, data, 'middleName');
+        UserResponseDto.SetValueIfExists(this, data, 'lastName');
+        UserResponseDto.SetValueIfExists(this, data, 'email');
+        UserResponseDto.SetValueIfExists(this, data, 'twets');
+        UserResponseDto.SetValueIfExists(this, data, 'tags');
+    }
+
+    private static SetValueIfExists(
+        responseObject: any,
+        data: any,
+        valueName: string,
+    ) {
+        if (
+            (Array.isArray(data[valueName]) && data[valueName].length > 0) ||
+            (!Array.isArray(data[valueName]) && !!data[valueName])
+        ) {
+            return (responseObject[valueName] = data[valueName]);
         }
-        if (!!data.createdAt) {
-            this.createdAt = data.createdAt;
-        }
-        if (!!data.updatedAt) {
-            this.updatedAt = data.updatedAt;
-        }
-        if (!!data.firstName) {
-            this.firstName = data.firstName;
-        }
-        if (!!data.middleName) {
-            this.middleName = data.middleName;
-        }
-        if (!!data.lastName) {
-            this.lastName = data.lastName;
-        }
-        if (!!data.email) {
-            this.email = data.email;
-        }
-        if (!!data.twets) {
-            this.twets = data.twets;
-        }
-        if (!!data.tags) {
-            this.tags = data.tags;
-        }
+
+        return responseObject;
     }
 }
