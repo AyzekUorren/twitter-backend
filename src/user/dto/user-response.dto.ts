@@ -1,4 +1,6 @@
-export class UserResponseDto {
+import { AbstractResponseDto } from '../../utils/dto/abstract-response.dto';
+
+export class UserResponseDto extends AbstractResponseDto {
     readonly link: string;
     readonly createdAt: string;
     readonly updatedAt: string;
@@ -10,29 +12,15 @@ export class UserResponseDto {
     readonly tags: string[];
 
     constructor(data: any) {
-        UserResponseDto.SetValueIfExists(this, data, 'link');
-        UserResponseDto.SetValueIfExists(this, data, 'createdAt');
-        UserResponseDto.SetValueIfExists(this, data, 'updatedAt');
-        UserResponseDto.SetValueIfExists(this, data, 'firstName');
-        UserResponseDto.SetValueIfExists(this, data, 'middleName');
-        UserResponseDto.SetValueIfExists(this, data, 'lastName');
-        UserResponseDto.SetValueIfExists(this, data, 'email');
-        UserResponseDto.SetValueIfExists(this, data, 'twets');
-        UserResponseDto.SetValueIfExists(this, data, 'tags');
-    }
-
-    private static SetValueIfExists(
-        responseObject: any,
-        data: any,
-        valueName: string,
-    ) {
-        if (
-            (Array.isArray(data[valueName]) && data[valueName].length > 0) ||
-            (!Array.isArray(data[valueName]) && !!data[valueName])
-        ) {
-            return (responseObject[valueName] = data[valueName]);
-        }
-
-        return responseObject;
+        super();
+        AbstractResponseDto.SetValueIfExists(this, data, 'link');
+        AbstractResponseDto.SetValueIfExists(this, data, 'createdAt');
+        AbstractResponseDto.SetValueIfExists(this, data, 'updatedAt');
+        AbstractResponseDto.SetValueIfExists(this, data, 'firstName');
+        AbstractResponseDto.SetValueIfExists(this, data, 'middleName');
+        AbstractResponseDto.SetValueIfExists(this, data, 'lastName');
+        AbstractResponseDto.SetValueIfExists(this, data, 'email');
+        AbstractResponseDto.SetValueIfExists(this, data, 'twets');
+        AbstractResponseDto.SetValueIfExists(this, data, 'tags');
     }
 }

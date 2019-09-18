@@ -19,7 +19,7 @@ export class TwetService {
 
     async create(createTwetDto: TwetDto): Promise<Twet> {
         const createdTwet = new this.twetModel(
-            this.updateDate(createTwetDto, true),
+            TwetService.updateDate(createTwetDto, true),
         );
         await createdTwet.save();
         return createdTwet;
@@ -30,12 +30,16 @@ export class TwetService {
         twetDto: TwetUpdateDto,
         author: string,
     ): Promise<Twet> {
-        this.utils.validateObjecId(twetId);
+        UtilsService.validateObjectId(twetId);
 
         const twet = await this.twetModel
-            .findOne({ _id: twetId, author: author })
+            .findOne({ _id: twetId, author })
             .exec();
-        this.utils.checkModel(twet, `twet:${twetId} not found`, 'Twet->update');
+        UtilsService.checkModel(
+            twet,
+            `twet:${twetId} not found`,
+            'Twet->update',
+        );
 
         twetDto.updatedAt = new Date().toString();
         return await this.twetModel
@@ -60,13 +64,13 @@ export class TwetService {
     async addTag(twetTagDto: TwetTagDTO): Promise<Twet> {
         const tag = await this.tagService.findById(twetTagDto.tagId);
         const twet = await this.twetModel.findById(twetTagDto.twetId);
-        this.utils.checkModel(
+        UtilsService.checkModel(
             tag && twet,
             `(Wrong params) tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`,
             'Twet->addTag',
         );
 
-        const updatedTwet = this.updateDate(twet);
+        const updatedTwet = TwetService.updateDate(twet);
 
         return await this.twetModel
             .findOneAndUpdate(
@@ -81,7 +85,7 @@ export class TwetService {
     }
 
     async remove(twetId: string): Promise<Twet> {
-        this.utils.validateObjecId(twetId);
+        UtilsService.validateObjectId(twetId);
 
         return await this.twetModel.findByIdAndRemove(twetId).exec();
     }
@@ -89,13 +93,13 @@ export class TwetService {
     async removeTag(twetTagDto: TwetTagDTO): Promise<Twet> {
         const tag = await this.tagService.findById(twetTagDto.tagId);
         const twet = await this.twetModel.findById(twetTagDto.twetId);
-        this.utils.checkModel(
+        UtilsService.checkModel(
             tag && twet,
             `(Wrong params) tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`,
             'Twet->removeTag',
         );
 
-        const updatedTwet = this.updateDate(twet);
+        const updatedTwet = TwetService.updateDate(twet);
 
         return await this.twetModel
             .findOneAndUpdate(
@@ -109,7 +113,7 @@ export class TwetService {
             .exec();
     }
 
-    protected updateDate(
+    protected static updateDate(
         createTwetDto: TwetDto | Twet,
         isCreated = false,
     ): TwetDto | Twet {

@@ -1,5 +1,5 @@
-import { UserModule } from './../user/user.module';
-import { ConfigModule } from './../config/config.module';
+import { UserModule } from '../user/user.module';
+import { ConfigModule } from '../config/config.module';
 import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -17,7 +17,7 @@ import { ConfigService } from '../config/config.service';
             imports: [ConfigModule],
             useFactory: async (config: ConfigService) => {
                 return await {
-                    secretOrPrivateKey: config.get('JWT_SECRET') || 'secretKey',
+                    secret: config.get('JWT_SECRET') || 'secretKey',
                     signOptions: {
                         expiresIn: 3600,
                     },

@@ -1,8 +1,8 @@
 import { UserResponseDto } from './dto/user-response.dto';
 import { UtilsService } from '../utils/utils.service';
 import { UserUpdateDto } from './dto/user-update.dto';
-import { TagService } from './../tag/tag.service';
-import { TwetService } from './../twet/twet.service';
+import { TagService } from '../tag/tag.service';
+import { TwetService } from '../twet/twet.service';
 import { UserTwetDto } from './dto/user-twet.dto';
 import { UserTagDto } from './dto/user-tag.dto';
 import { Inject, Injectable } from '@nestjs/common';
@@ -24,7 +24,7 @@ export class UserService {
         const user = await this.userModel
             .findOne({ email: createUserDto.email })
             .exec();
-        this.utils.checkModel(
+        UtilsService.checkModel(
             !user,
             'User already exists',
             'userService->create',
@@ -32,7 +32,7 @@ export class UserService {
 
         createUserDto.email = createUserDto.email.toLowerCase();
         const createdUser = new this.userModel(
-            this.updateDate(createUserDto, true),
+            UserService.updateDate(createUserDto, true),
         );
 
         const newUser = await createdUser.save();
@@ -44,10 +44,14 @@ export class UserService {
         userId: string,
         userDto: UserUpdateDto,
     ): Promise<UserResponseDto> {
-        this.utils.validateObjecId(userId);
+        UtilsService.validateObjectId(userId);
 
         const user = await this.userModel.findById(userId).exec();
-        this.utils.checkModel(user, `user:${userId} not found`, 'User->remove');
+        UtilsService.checkModel(
+            user,
+            `user:${userId} not found`,
+            'User->remove',
+        );
 
         userDto.updatedAt = new Date().toString();
 
@@ -65,10 +69,14 @@ export class UserService {
     }
 
     async remove(userId: string) {
-        this.utils.validateObjecId(userId);
+        UtilsService.validateObjectId(userId);
 
         const user = await this.userModel.findByIdAndRemove(userId).exec();
-        this.utils.checkModel(user, `user:${userId} not found`, 'User->remove');
+        UtilsService.checkModel(
+            user,
+            `user:${userId} not found`,
+            'User->remove',
+        );
 
         if (user.twets) {
             for await (const twetId of user.twets) {
@@ -86,14 +94,11 @@ export class UserService {
     async findAll(): Promise<UserResponseDto[]> {
         const users = await this.userModel.find().exec();
 
-        const responseUsers: UserResponseDto[] = users.map(
-            user => new UserResponseDto(user),
-        );
-        return responseUsers;
+        return users.map(user => new UserResponseDto(user));
     }
 
     async findById(userId: string): Promise<UserResponseDto | {}> {
-        this.utils.validateObjecId(userId);
+        UtilsService.validateObjectId(userId);
 
         const user = await this.userModel
             .findById(userId)
@@ -109,13 +114,13 @@ export class UserService {
 
     async addTwet(userTwetDto: UserTwetDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTwetDto.userId).exec();
-        this.utils.checkModel(
+        UtilsService.checkModel(
             user,
             `user:${userTwetDto.userId} not found`,
             'User->addTwet',
         );
 
-        const userDate = this.updateDate(user);
+        const userDate = UserService.updateDate(user);
         const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTwetDto.userId,
@@ -132,13 +137,13 @@ export class UserService {
 
     async removeTwet(userTwetDto: UserTwetDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTwetDto.userId).exec();
-        this.utils.checkModel(
+        UtilsService.checkModel(
             user,
             `user:${userTwetDto.userId} not found`,
             'User->removeTwet',
         );
 
-        const userDate = this.updateDate(user);
+        const userDate = UserService.updateDate(user);
         const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTwetDto.userId,
@@ -155,13 +160,13 @@ export class UserService {
 
     async addTag(userTagdto: UserTagDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTagdto.userId).exec();
-        this.utils.checkModel(
+        UtilsService.checkModel(
             user,
             `user:${userTagdto.userId} not found`,
             'User->addTag',
         );
 
-        const userDate = this.updateDate(user);
+        const userDate = UserService.updateDate(user);
         const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTagdto.userId,
@@ -178,13 +183,13 @@ export class UserService {
 
     async removeTag(userTagDto: UserTagDto): Promise<UserResponseDto> {
         const user = await this.userModel.findById(userTagDto.userId).exec();
-        this.utils.checkModel(
+        UtilsService.checkModel(
             user,
             `user:${userTagDto.userId} not found`,
             'User->removeTag',
         );
 
-        const userDate = this.updateDate(user);
+        const userDate = UserService.updateDate(user);
         const updatedUser = await this.userModel
             .findByIdAndUpdate(
                 userTagDto.userId,
@@ -199,7 +204,7 @@ export class UserService {
         return new UserResponseDto(updatedUser);
     }
 
-    protected updateDate(
+    protected static updateDate(
         userDto: UserDto | User,
         isCreated = false,
     ): UserDto | User {
