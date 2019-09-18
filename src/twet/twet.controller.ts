@@ -14,7 +14,6 @@ import {
     UseGuards,
     Req,
 } from '@nestjs/common';
-import { Twet } from './interfaces/twet.interface';
 import {
     ApiUseTags,
     ApiResponse,
@@ -55,7 +54,7 @@ export class TwetController {
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-    async addTag(@Body() twetTagDto: TwetTagDTO): Promise<Twet> {
+    async addTag(@Body() twetTagDto: TwetTagDTO) {
         return await this.twetService.addTag(twetTagDto);
     }
 
@@ -68,7 +67,7 @@ export class TwetController {
         @Param('id') twetId: string,
         @Body() updateTwetDto: TwetUpdateDto,
         @Req() request,
-    ): Promise<Twet> {
+    ) {
         return await this.twetService.update(
             twetId,
             updateTwetDto,
@@ -81,7 +80,7 @@ export class TwetController {
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Updated Tweet' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-    async removeTag(@Body() twetTagDto: TwetTagDTO): Promise<Twet> {
+    async removeTag(@Body() twetTagDto: TwetTagDTO) {
         return await this.twetService.removeTag(twetTagDto);
     }
 
@@ -106,7 +105,7 @@ export class TwetController {
     @Get()
     @ApiResponse({ status: HttpStatus.OK, description: 'Twets array' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-    async findAll(): Promise<Twet[]> {
+    async findAll() {
         return await this.twetService.findAll();
     }
 }
