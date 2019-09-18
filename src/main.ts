@@ -39,7 +39,7 @@ async function bootstrap() {
     await app.listen(port, () => {
         if (process.env.NODE_ENV !== 'production') {
             Logger.log(
-                `-> Listening on	\x1b[34m http://localhost:${port}/docs\x1b[0m`,
+                `\x1b[0;33m[NestApplication]\x1b[0m \x1b[0;32m-> Listening on \x1b[34m http://localhost:${port}/docs\x1b[0m`,
             );
         }
     });

@@ -2,14 +2,14 @@ import { mongo } from 'mongoose';
 import { BadRequestException, Logger } from '@nestjs/common';
 
 export class UtilsService {
-    public validateObjecId(objectId: string) {
+    public static validateObjectId(objectId: string) {
         if (!mongo.ObjectID.isValid(objectId)) {
             Logger.error(objectId);
             throw new BadRequestException(`ObjectId is not valid ${objectId}`);
         }
     }
 
-    public checkModel(
+    public static checkModel(
         expresion: any,
         message: string = 'model not found',
         path: string = 'undefined',

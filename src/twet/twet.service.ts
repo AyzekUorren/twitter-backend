@@ -7,6 +7,7 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
 import { TagService } from '../tag/tag.service';
+import { TwetResponseDto } from './dto/twet-response.dto';
 
 @Injectable()
 export class TwetService {
@@ -17,28 +18,33 @@ export class TwetService {
         @Inject(UtilsService) private readonly utils: UtilsService,
     ) {}
 
-    async create(createTwetDto: TwetDto): Promise<Twet> {
+    async create(createTwetDto: TwetDto): Promise<TwetResponseDto> {
         const createdTwet = new this.twetModel(
-            this.updateDate(createTwetDto, true),
+            TwetService.updateDate(createTwetDto, true),
         );
         await createdTwet.save();
-        return createdTwet;
+        return new TwetResponseDto(createdTwet);
     }
 
     async update(
         twetId: string,
         twetDto: TwetUpdateDto,
         author: string,
-    ): Promise<Twet> {
-        this.utils.validateObjecId(twetId);
+    ): Promise<TwetResponseDto> {
+        UtilsService.validateObjectId(twetId);
 
         const twet = await this.twetModel
-            .findOne({ _id: twetId, author: author })
+            .findOne({ _id: twetId, author })
             .exec();
-        this.utils.checkModel(twet, `twet:${twetId} not found`, 'Twet->update');
+        UtilsService.checkModel(
+            twet,
+            `twet:${twetId} not found`,
+            'Twet->update',
+        );
 
         twetDto.updatedAt = new Date().toString();
-        return await this.twetModel
+
+        const updatedTwet = await this.twetModel
             .findOneAndUpdate(
                 {
                     _id: twetId,
@@ -47,69 +53,79 @@ export class TwetService {
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new TwetResponseDto(updatedTwet);
     }
 
-    async findAll(): Promise<Twet[]> {
-        return await this.twetModel
+    async findAll(): Promise<TwetResponseDto[]> {
+        const twets = await this.twetModel
             .find()
             .populate('tags')
             .populate('twets')
             .exec();
+
+        return twets.map(twet => new TwetResponseDto(twet));
     }
 
-    async addTag(twetTagDto: TwetTagDTO): Promise<Twet> {
+    async addTag(twetTagDto: TwetTagDTO): Promise<TwetResponseDto> {
         const tag = await this.tagService.findById(twetTagDto.tagId);
         const twet = await this.twetModel.findById(twetTagDto.twetId);
-        this.utils.checkModel(
+        UtilsService.checkModel(
             tag && twet,
             `(Wrong params) tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`,
             'Twet->addTag',
         );
 
-        const updatedTwet = this.updateDate(twet);
+        const updatedDateTwet = TwetService.updateDate(twet);
 
-        return await this.twetModel
+        const updatedTwet = await this.twetModel
             .findOneAndUpdate(
                 { _id: twet.id },
                 {
-                    $set: { updatedAt: updatedTwet.updatedAt },
+                    $set: { updatedAt: updatedDateTwet.updatedAt },
                     $addToSet: { tags: tag.id },
                 },
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new TwetResponseDto(updatedTwet);
     }
 
-    async remove(twetId: string): Promise<Twet> {
-        this.utils.validateObjecId(twetId);
+    async remove(twetId: string): Promise<TwetResponseDto> {
+        UtilsService.validateObjectId(twetId);
 
-        return await this.twetModel.findByIdAndRemove(twetId).exec();
+        const twet = await this.twetModel.findByIdAndRemove(twetId).exec();
+
+        return new TwetResponseDto(twet);
     }
 
-    async removeTag(twetTagDto: TwetTagDTO): Promise<Twet> {
+    async removeTag(twetTagDto: TwetTagDTO): Promise<TwetResponseDto> {
         const tag = await this.tagService.findById(twetTagDto.tagId);
         const twet = await this.twetModel.findById(twetTagDto.twetId);
-        this.utils.checkModel(
+        UtilsService.checkModel(
             tag && twet,
             `(Wrong params) tag:${twetTagDto.tagId} twet:${twetTagDto.twetId}`,
             'Twet->removeTag',
         );
 
-        const updatedTwet = this.updateDate(twet);
+        const updatedDateTwet = TwetService.updateDate(twet);
 
-        return await this.twetModel
+        const updatedTwet = await this.twetModel
             .findOneAndUpdate(
                 { _id: twet.id },
                 {
-                    $set: { updatedAt: updatedTwet.updatedAt },
+                    $set: { updatedAt: updatedDateTwet.updatedAt },
                     $pull: { tags: tag.id },
                 },
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new TwetResponseDto(updatedTwet);
     }
 
-    protected updateDate(
+    protected static updateDate(
         createTwetDto: TwetDto | Twet,
         isCreated = false,
     ): TwetDto | Twet {

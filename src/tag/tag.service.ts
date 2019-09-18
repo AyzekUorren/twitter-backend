@@ -1,5 +1,5 @@
 import { UtilsService } from '../utils/utils.service';
-import { MONGOOSE_UPDATE_OPTIONS } from './../constants';
+import { MONGOOSE_UPDATE_OPTIONS } from '../constants';
 import { TagUpdateDto } from './dto/tag-update.dto';
 import { TagDto } from './dto/tag.dto';
 import { Tag } from './interfaces/tag.interface';
@@ -15,7 +15,7 @@ export class TagService {
 
     async create(createTagDto: TagDto): Promise<Tag> {
         const createdTag = new this.tagModel(
-            this.updateDate(createTagDto, true),
+            TagService.updateDate(createTagDto, true),
         );
         return await createdTag.save();
     }
@@ -25,17 +25,15 @@ export class TagService {
     }
 
     async findById(tagId: string): Promise<Tag> {
-        this.utils.validateObjecId(tagId);
+        UtilsService.validateObjectId(tagId);
         return await this.tagModel.findById(tagId).exec();
     }
 
     async remove(tagId: string, author: string): Promise<Tag> {
-        this.utils.validateObjecId(tagId);
+        UtilsService.validateObjectId(tagId);
 
-        const tag = await this.tagModel
-            .findOne({ _id: tagId, author: author })
-            .exec();
-        this.utils.checkModel(tag, 'Tag not found', 'Tag->remove');
+        const tag = await this.tagModel.findOne({ _id: tagId, author }).exec();
+        UtilsService.checkModel(tag, 'Tag not found', 'Tag->remove');
         return await this.tagModel.findByIdAndRemove(tagId).exec();
     }
 
@@ -44,25 +42,23 @@ export class TagService {
         updateTagDto: TagUpdateDto,
         author: string,
     ): Promise<Tag> {
-        this.utils.validateObjecId(tagId);
+        UtilsService.validateObjectId(tagId);
 
-        const tag = await this.tagModel
-            .findOne({ _id: tagId, author: author })
-            .exec();
-        this.utils.checkModel(tag, `tag:${tagId} not found`, 'Tag->update');
+        const tag = await this.tagModel.findOne({ _id: tagId, author }).exec();
+        UtilsService.checkModel(tag, `tag:${tagId} not found`, 'Tag->update');
 
         return await this.tagModel
             .findOneAndUpdate(
                 {
                     _id: tagId,
                 },
-                this.updateDate(updateTagDto),
+                TagService.updateDate(updateTagDto),
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
     }
 
-    protected updateDate(
+    protected static updateDate(
         tagDto: TagDto | TagUpdateDto,
         isCreated = false,
     ): TagDto | TagUpdateDto {
