@@ -108,7 +108,7 @@ describe('UserController', () => {
                     throw new BadRequestException();
                 });
 
-            expect(userController.create(resultUserDTO)).rejects.toThrow(
+            await expect(userController.create(resultUserDTO)).rejects.toThrow(
                 BadRequestException,
             );
             expect(spy).toHaveBeenCalledTimes(1);
@@ -148,7 +148,7 @@ describe('UserController', () => {
                     throw new BadRequestException();
                 });
 
-            expect(
+            await expect(
                 userController.update(fakeUserId, resultUserDTO),
             ).rejects.toThrow(BadRequestException);
             expect(spy).toHaveBeenCalledTimes(1);
@@ -192,7 +192,7 @@ describe('UserController', () => {
                     throw new BadRequestException();
                 });
 
-            expect(userController.remove(fakeUserId)).rejects.toThrow(
+            await expect(userController.remove(fakeUserId)).rejects.toThrow(
                 BadRequestException,
             );
             expect(spy).toHaveBeenCalledTimes(1);
