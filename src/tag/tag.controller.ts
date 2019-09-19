@@ -24,7 +24,7 @@ import {
     ApiOkResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { ApiResponseStatusDto } from '../utils/dto/ApiResponseStatus.dto';
+import { ApiResponseDto } from '../utils/dto/api-response.dto';
 
 @Controller('tag')
 @ApiUseTags('tag')
@@ -86,7 +86,7 @@ export class TagController {
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    @ApiOkResponse({ description: 'Removed Tag', type: ApiResponseStatusDto })
+    @ApiOkResponse({ description: 'Removed Tag', type: ApiResponseDto })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async remove(@Param('id') tagId: string, @Req() request) {
         const removedTag = await this.tagService.remove(
@@ -97,7 +97,7 @@ export class TagController {
             userId: removedTag.author,
             tagId: removedTag.id,
         });
-        return new ApiResponseStatusDto({
+        return new ApiResponseDto({
             status: 'ok',
             message: 'tag was removed',
         });

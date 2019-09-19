@@ -20,7 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { UserResponseDto } from './dto/user-response.dto';
-import { ApiResponseStatusDto } from '../utils/dto/ApiResponseStatus.dto';
+import { ApiResponseDto } from '../utils/dto/api-response.dto';
 
 @Controller('user')
 @ApiUseTags('user')
@@ -70,11 +70,11 @@ export class UserController {
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({
         description: 'User and all related objects are deleted.',
-        type: ApiResponseStatusDto,
+        type: ApiResponseDto,
     })
     async remove(@Param('id') userId: string) {
         await this.userService.remove(userId);
-        return new ApiResponseStatusDto({
+        return new ApiResponseDto({
             status: 'ok',
             message: 'User and all related objects are deleted.',
         });

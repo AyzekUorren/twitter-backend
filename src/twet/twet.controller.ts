@@ -24,7 +24,7 @@ import {
 import { UserService } from '../user/user.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TwetResponseDto } from './dto/twet-response.dto';
-import { ApiResponseStatusDto } from '../utils/dto/ApiResponseStatus.dto';
+import { ApiResponseDto } from '../utils/dto/api-response.dto';
 
 @Controller('twet')
 @ApiUseTags('twet')
@@ -111,7 +111,7 @@ export class TwetController {
         type: TwetResponseDto,
     })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-    @ApiOkResponse({ description: 'OK', type: ApiResponseStatusDto })
+    @ApiOkResponse({ description: 'OK', type: ApiResponseDto })
     async remove(@Param('id') twetId: string) {
         const removedTwet = await this.twetService.remove(twetId);
 
@@ -122,7 +122,7 @@ export class TwetController {
             });
         }
 
-        return new ApiResponseStatusDto({
+        return new ApiResponseDto({
             status: 'ok',
             message: 'Twet was removed',
         });

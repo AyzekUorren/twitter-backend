@@ -2,7 +2,7 @@ import { AbstractResponseDto } from './abstract-response.dto';
 import { IsString } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class ApiResponseStatusDto extends AbstractResponseDto {
+export class ApiResponseDto extends AbstractResponseDto {
     @IsString()
     @ApiModelProperty({
         type: String,
