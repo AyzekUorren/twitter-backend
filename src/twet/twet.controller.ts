@@ -28,6 +28,7 @@ import { ApiResponseDto } from '../utils/dto/api-response.dto';
 @Controller('twet')
 @ApiUseTags('twet')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class TwetController {
     constructor(
@@ -35,7 +36,6 @@ export class TwetController {
         private readonly twetService: TwetService,
     ) {}
 
-    @UseGuards(JwtAuthGuard)
     @Post()
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({
@@ -54,7 +54,6 @@ export class TwetController {
         return createdTwet;
     }
 
-    @UseGuards(JwtAuthGuard)
     @Put('tag')
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({
@@ -65,7 +64,6 @@ export class TwetController {
         return await this.twetService.addTag(twetTagDto);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Put(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({
@@ -84,7 +82,6 @@ export class TwetController {
         );
     }
 
-    @UseGuards(JwtAuthGuard)
     @Delete('tag')
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({
@@ -95,7 +92,6 @@ export class TwetController {
         return await this.twetService.removeTag(twetTagDto);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiOkResponse({
         description: 'Removed Tweet',
@@ -118,7 +114,6 @@ export class TwetController {
         });
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOkResponse({
         description: 'Twets array',

@@ -26,6 +26,7 @@ import { ApiResponseDto } from '../utils/dto/api-response.dto';
 @Controller('user')
 @ApiUseTags('user')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class UserController {
     constructor(private readonly userService: UserService) {}
@@ -34,7 +35,6 @@ export class UserController {
         return await this.userService.create(userDto);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiResponse({
         status: HttpStatus.OK,
@@ -45,7 +45,6 @@ export class UserController {
         return await this.userService.findAll();
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({
@@ -56,7 +55,6 @@ export class UserController {
         return await this.userService.findById(userId);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Put(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({ description: 'Updated User', type: UserResponseDto })
@@ -67,7 +65,6 @@ export class UserController {
         return await this.userService.update(userId, userUpdateDto);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({

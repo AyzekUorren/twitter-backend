@@ -28,6 +28,7 @@ import { ApiResponseDto } from '../utils/dto/api-response.dto';
 @Controller('tag')
 @ApiUseTags('tag')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class TagController {
     constructor(
@@ -35,7 +36,6 @@ export class TagController {
         private readonly userService: UserService,
     ) {}
 
-    @UseGuards(JwtAuthGuard)
     @Post()
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiCreatedResponse({ description: 'Created Tag' })
@@ -49,7 +49,6 @@ export class TagController {
         return createdTag;
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({ description: 'Tags array' })
@@ -57,14 +56,12 @@ export class TagController {
         return await this.tagService.findAll();
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get(':id')
     @ApiOkResponse({ description: 'Tag' })
     async getById(@Param('id') tagId: string) {
         return await this.tagService.findById(tagId);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Put(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiOkResponse({ description: 'Updated Tag' })
@@ -80,7 +77,6 @@ export class TagController {
         );
     }
 
-    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiOkResponse({ description: 'Removed Tag', type: ApiResponseDto })
     async remove(@Param('id') tagId: string, @Req() request) {
