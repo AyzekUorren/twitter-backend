@@ -1,4 +1,4 @@
-import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {
     Controller,
     Get,
@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { UserResponseDto } from './dto/user-response.dto';
+import { ApiResponseStatusDto } from '../utils/dto/ApiResponseStatus.dto';
 
 @Controller('user')
 @ApiUseTags('user')
@@ -33,7 +34,11 @@ export class UserController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    @ApiResponse({ status: HttpStatus.OK, description: 'Users array' })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Users array',
+        type: [UserResponseDto],
+    })
     async findAll(): Promise<UserResponseDto[]> {
         return await this.userService.findAll();
     }
@@ -41,7 +46,10 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Get(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
-    @ApiOkResponse({ description: 'Detailed User model' })
+    @ApiOkResponse({
+        description: 'Detailed User model',
+        type: UserResponseDto,
+    })
     async findById(@Param('id') userId: string) {
         return await this.userService.findById(userId);
     }
@@ -49,7 +57,7 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Put(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
-    @ApiOkResponse({ description: 'Updated User' })
+    @ApiOkResponse({ description: 'Updated User', type: UserResponseDto })
     async update(
         @Param('id') userId: string,
         @Body() userUpdateDto: UserUpdateDto,
@@ -60,12 +68,15 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiBadRequestResponse({ description: 'Bad Request' })
-    @ApiOkResponse({ description: 'User and all related objects are deleted.' })
+    @ApiOkResponse({
+        description: 'User and all related objects are deleted.',
+        type: ApiResponseStatusDto,
+    })
     async remove(@Param('id') userId: string) {
         await this.userService.remove(userId);
-        return {
+        return new ApiResponseStatusDto({
             status: 'ok',
             message: 'User and all related objects are deleted.',
-        };
+        });
     }
 }

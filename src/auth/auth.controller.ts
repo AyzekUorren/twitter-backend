@@ -1,9 +1,16 @@
 import { UserDto } from '../user/dto/user.dto';
 import { Controller, Post, Body, Req, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import {
+    ApiUseTags,
+    ApiBearerAuth,
+    ApiUnauthorizedResponse,
+    ApiOkResponse,
+} from '@nestjs/swagger';
 import { UserAuthDto } from '../user/dto/user-auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { UserResponseDto } from '../user/dto/user-response.dto';
+import { AuthResponseDto } from './dto/auth-response.dto';
 
 @Controller('auth')
 @ApiUseTags('auth')
@@ -11,11 +18,13 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('signIn')
+    @ApiOkResponse({ type: AuthResponseDto })
     async createToken(@Body() userAuthDto: UserAuthDto) {
         return await this.authService.createToken(userAuthDto);
     }
 
     @Post('signUp')
+    @ApiOkResponse({ type: AuthResponseDto })
     async signUp(@Body() userDto: UserDto) {
         return await this.authService.signUp(userDto);
     }
@@ -23,18 +32,9 @@ export class AuthController {
     @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @Get()
+    @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
+    @ApiOkResponse({ type: UserResponseDto })
     async getUser(@Req() request) {
-        return {
-            twets: request.user.twets,
-            tags: request.user.tags,
-            id: request.user._id,
-            firstName: request.user.firstName,
-            middleName: request.user.middleName,
-            lastName: request.user.lastName,
-            password: request.user.password,
-            email: request.user.email,
-            updatedAt: request.user.updatedAt,
-            createdAt: request.user.createdAt,
-        };
+        return new UserResponseDto(request.user);
     }
 }

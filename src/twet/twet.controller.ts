@@ -19,10 +19,12 @@ import {
     ApiResponse,
     ApiUnauthorizedResponse,
     ApiBearerAuth,
+    ApiOkResponse,
 } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TwetResponseDto } from './dto/twet-response.dto';
+import { ApiResponseStatusDto } from '../utils/dto/ApiResponseStatus.dto';
 
 @Controller('twet')
 @ApiUseTags('twet')
@@ -109,6 +111,7 @@ export class TwetController {
         type: TwetResponseDto,
     })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    @ApiOkResponse({ description: 'OK', type: ApiResponseStatusDto })
     async remove(@Param('id') twetId: string) {
         const removedTwet = await this.twetService.remove(twetId);
 
@@ -119,7 +122,10 @@ export class TwetController {
             });
         }
 
-        return { status: 'ok', message: 'Twet was removed' };
+        return new ApiResponseStatusDto({
+            status: 'ok',
+            message: 'Twet was removed',
+        });
     }
 
     @UseGuards(JwtAuthGuard)

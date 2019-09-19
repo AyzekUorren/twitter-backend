@@ -1,4 +1,4 @@
-import { UserDto } from './../user/dto/user.dto';
+import { UserDto } from '../user/dto/user.dto';
 import { UserAuthDto } from '../user/dto/user-auth.dto';
 import {
     Injectable,
@@ -9,6 +9,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { UserService } from '../user/user.service';
+import { AuthResponseDto } from './dto/auth-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,19 +19,19 @@ export class AuthService {
     ) {}
 
     async createToken(authUser: UserAuthDto) {
-        const SignInuser = await this.userService.findByEmail(
+        const SignInUser = await this.userService.findByEmail(
             authUser.username,
         );
-        if (!SignInuser) {
+        if (!SignInUser) {
             Logger.error('auth->createToken: User not found');
             throw new UnauthorizedException('User not found');
         }
-        const user: JwtPayload = { username: SignInuser.email };
+        const user: JwtPayload = { username: SignInUser.email };
         const accessToken = this.jwtService.sign(user);
-        return {
+        return new AuthResponseDto({
             expiresIn: 3600,
             access_token: accessToken,
-        };
+        });
     }
 
     async signUp(createUserDto: UserDto) {
@@ -42,10 +43,10 @@ export class AuthService {
         }
         const user: JwtPayload = { username: SignUpUser.email };
         const accessToken = this.jwtService.sign(user);
-        return {
+        return new AuthResponseDto({
             expiresIn: 3600,
-            accessToken,
-        };
+            access_token: accessToken,
+        });
     }
 
     async validateUser(payload: JwtPayload): Promise<any> {
