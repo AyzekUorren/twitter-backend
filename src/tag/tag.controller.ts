@@ -24,11 +24,13 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiResponseDto } from '../utils/dto/api-response.dto';
+import { TagResponseDto } from './dto/tag-response.dto';
 
 @Controller('tag')
 @ApiUseTags('tag')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@ApiBadRequestResponse({ description: 'Bad Request' })
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class TagController {
     constructor(
@@ -38,7 +40,7 @@ export class TagController {
 
     @Post()
     @ApiBadRequestResponse({ description: 'Bad Request' })
-    @ApiCreatedResponse({ description: 'Created Tag' })
+    @ApiCreatedResponse({ description: 'Created Tag', type: TagResponseDto })
     async create(@Body() createTagDto: TagDto, @Req() request) {
         createTagDto.author = request.user.id;
         const createdTag = await this.tagService.create(createTagDto);
@@ -46,25 +48,23 @@ export class TagController {
             userId: createdTag.author,
             tagId: createdTag.id,
         });
-        return createdTag;
+        return new TagResponseDto(createdTag);
     }
 
     @Get()
-    @ApiBadRequestResponse({ description: 'Bad Request' })
-    @ApiOkResponse({ description: 'Tags array' })
-    async findAll(): Promise<Tag[]> {
+    @ApiOkResponse({ description: 'Tags array', type: [TagResponseDto] })
+    async findAll() {
         return await this.tagService.findAll();
     }
 
     @Get(':id')
-    @ApiOkResponse({ description: 'Tag' })
+    @ApiOkResponse({ description: 'Tag', type: TagResponseDto })
     async getById(@Param('id') tagId: string) {
         return await this.tagService.findById(tagId);
     }
 
     @Put(':id')
-    @ApiBadRequestResponse({ description: 'Bad Request' })
-    @ApiOkResponse({ description: 'Updated Tag' })
+    @ApiOkResponse({ description: 'Updated Tag', type: TagResponseDto })
     async update(
         @Param('id') tagId: string,
         @Body() updateTagDto: TagUpdateDto,

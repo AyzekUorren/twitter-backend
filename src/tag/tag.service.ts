@@ -5,6 +5,7 @@ import { TagDto } from './dto/tag.dto';
 import { Tag } from './interfaces/tag.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
+import { TagResponseDto } from './dto/tag-response.dto';
 
 @Injectable()
 export class TagService {
@@ -13,41 +14,45 @@ export class TagService {
         @Inject(UtilsService) private readonly utils: UtilsService,
     ) {}
 
-    async create(createTagDto: TagDto): Promise<Tag> {
+    async create(createTagDto: TagDto): Promise<TagResponseDto> {
         const createdTag = new this.tagModel(
             TagService.updateDate(createTagDto, true),
         );
-        return await createdTag.save();
+        return new TagResponseDto(await createdTag.save());
     }
 
-    async findAll(): Promise<Tag[]> {
-        return await this.tagModel.find().exec();
+    async findAll(): Promise<TagResponseDto[]> {
+        const tagsArray = await this.tagModel.find().exec();
+
+        return tagsArray.map(tag => new TagResponseDto(tag));
     }
 
-    async findById(tagId: string): Promise<Tag> {
+    async findById(tagId: string): Promise<TagResponseDto> {
         UtilsService.validateObjectId(tagId);
-        return await this.tagModel.findById(tagId).exec();
+        return new TagResponseDto(await this.tagModel.findById(tagId).exec());
     }
 
-    async remove(tagId: string, author: string): Promise<Tag> {
+    async remove(tagId: string, author: string): Promise<TagResponseDto> {
         UtilsService.validateObjectId(tagId);
 
         const tag = await this.tagModel.findOne({ _id: tagId, author }).exec();
         UtilsService.checkModel(tag, 'Tag not found', 'Tag->remove');
-        return await this.tagModel.findByIdAndRemove(tagId).exec();
+        return new TagResponseDto(
+            await this.tagModel.findByIdAndRemove(tagId).exec(),
+        );
     }
 
     async update(
         tagId: string,
         updateTagDto: TagUpdateDto,
         author: string,
-    ): Promise<Tag> {
+    ): Promise<TagResponseDto> {
         UtilsService.validateObjectId(tagId);
 
         const tag = await this.tagModel.findOne({ _id: tagId, author }).exec();
         UtilsService.checkModel(tag, `tag:${tagId} not found`, 'Tag->update');
 
-        return await this.tagModel
+        const updatedTag = await this.tagModel
             .findOneAndUpdate(
                 {
                     _id: tagId,
@@ -56,6 +61,8 @@ export class TagService {
                 MONGOOSE_UPDATE_OPTIONS,
             )
             .exec();
+
+        return new TagResponseDto(updatedTag);
     }
 
     protected static updateDate(
