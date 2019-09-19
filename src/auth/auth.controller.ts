@@ -6,6 +6,8 @@ import {
     ApiBearerAuth,
     ApiUnauthorizedResponse,
     ApiOkResponse,
+    ApiCreatedResponse,
+    ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { UserAuthDto } from '../user/dto/user-auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -18,13 +20,14 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('signIn')
-    @ApiOkResponse({ type: AuthResponseDto })
+    @ApiCreatedResponse({ type: AuthResponseDto })
     async createToken(@Body() userAuthDto: UserAuthDto) {
         return await this.authService.createToken(userAuthDto);
     }
 
     @Post('signUp')
-    @ApiOkResponse({ type: AuthResponseDto })
+    @ApiCreatedResponse({ type: AuthResponseDto })
+    @ApiBadRequestResponse({ description: 'Bad request' })
     async signUp(@Body() userDto: UserDto) {
         return await this.authService.signUp(userDto);
     }
