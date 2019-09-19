@@ -11,17 +11,16 @@ import {
     Param,
     Delete,
     Put,
-    HttpStatus,
     UseGuards,
     Req,
 } from '@nestjs/common';
 import {
     ApiUseTags,
-    ApiResponse,
     ApiCreatedResponse,
     ApiUnauthorizedResponse,
     ApiBearerAuth,
     ApiOkResponse,
+    ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiResponseDto } from '../utils/dto/api-response.dto';
@@ -29,6 +28,7 @@ import { ApiResponseDto } from '../utils/dto/api-response.dto';
 @Controller('tag')
 @ApiUseTags('tag')
 @ApiBearerAuth()
+@ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class TagController {
     constructor(
         private readonly tagService: TagService,
@@ -37,9 +37,8 @@ export class TagController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+    @ApiBadRequestResponse({ description: 'Bad Request' })
     @ApiCreatedResponse({ description: 'Created Tag' })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async create(@Body() createTagDto: TagDto, @Req() request) {
         createTagDto.author = request.user.id;
         const createdTag = await this.tagService.create(createTagDto);
@@ -52,26 +51,23 @@ export class TagController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
-    @ApiResponse({ status: HttpStatus.OK, description: 'Tags array' })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    @ApiBadRequestResponse({ description: 'Bad Request' })
+    @ApiOkResponse({ description: 'Tags array' })
     async findAll(): Promise<Tag[]> {
         return await this.tagService.findAll();
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    @ApiResponse({ status: HttpStatus.OK, description: 'Tag' })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    @ApiOkResponse({ description: 'Tag' })
     async getById(@Param('id') tagId: string) {
         return await this.tagService.findById(tagId);
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
-    @ApiResponse({ status: HttpStatus.OK, description: 'Updated Tag' })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    @ApiBadRequestResponse({ description: 'Bad Request' })
+    @ApiOkResponse({ description: 'Updated Tag' })
     async update(
         @Param('id') tagId: string,
         @Body() updateTagDto: TagUpdateDto,
@@ -87,7 +83,6 @@ export class TagController {
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiOkResponse({ description: 'Removed Tag', type: ApiResponseDto })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async remove(@Param('id') tagId: string, @Req() request) {
         const removedTag = await this.tagService.remove(
             tagId,

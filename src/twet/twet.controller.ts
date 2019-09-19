@@ -10,16 +10,15 @@ import {
     Delete,
     Param,
     Put,
-    HttpStatus,
     UseGuards,
     Req,
 } from '@nestjs/common';
 import {
     ApiUseTags,
-    ApiResponse,
     ApiUnauthorizedResponse,
     ApiBearerAuth,
     ApiOkResponse,
+    ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -29,6 +28,7 @@ import { ApiResponseDto } from '../utils/dto/api-response.dto';
 @Controller('twet')
 @ApiUseTags('twet')
 @ApiBearerAuth()
+@ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class TwetController {
     constructor(
         private readonly userService: UserService,
@@ -37,13 +37,11 @@ export class TwetController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
-    @ApiResponse({
-        status: HttpStatus.OK,
+    @ApiBadRequestResponse({ description: 'Bad Request' })
+    @ApiOkResponse({
         description: 'Created Tweet',
         type: TwetResponseDto,
     })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async create(@Body() createTwetDto: TwetDto, @Req() request) {
         createTwetDto.author = request.user.id;
         const createdTwet = await this.twetService.create(createTwetDto);
@@ -58,26 +56,22 @@ export class TwetController {
 
     @UseGuards(JwtAuthGuard)
     @Put('tag')
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
-    @ApiResponse({
-        status: HttpStatus.OK,
+    @ApiBadRequestResponse({ description: 'Bad Request' })
+    @ApiOkResponse({
         description: 'Updated Tweet',
         type: TwetResponseDto,
     })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async addTag(@Body() twetTagDto: TwetTagDTO) {
         return await this.twetService.addTag(twetTagDto);
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
-    @ApiResponse({
-        status: HttpStatus.OK,
+    @ApiBadRequestResponse({ description: 'Bad Request' })
+    @ApiOkResponse({
         description: 'Updated Tweet',
         type: TwetResponseDto,
     })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async update(
         @Param('id') twetId: string,
         @Body() updateTwetDto: TwetUpdateDto,
@@ -92,25 +86,21 @@ export class TwetController {
 
     @UseGuards(JwtAuthGuard)
     @Delete('tag')
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
-    @ApiResponse({
-        status: HttpStatus.OK,
+    @ApiBadRequestResponse({ description: 'Bad Request' })
+    @ApiOkResponse({
         description: 'Updated Tweet',
         type: TwetResponseDto,
     })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async removeTag(@Body() twetTagDto: TwetTagDTO) {
         return await this.twetService.removeTag(twetTagDto);
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    @ApiResponse({
-        status: HttpStatus.OK,
+    @ApiOkResponse({
         description: 'Removed Tweet',
         type: TwetResponseDto,
     })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     @ApiOkResponse({ description: 'OK', type: ApiResponseDto })
     async remove(@Param('id') twetId: string) {
         const removedTwet = await this.twetService.remove(twetId);
@@ -130,12 +120,10 @@ export class TwetController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    @ApiResponse({
-        status: HttpStatus.OK,
+    @ApiOkResponse({
         description: 'Twets array',
         type: [TwetResponseDto],
     })
-    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     async findAll() {
         return await this.twetService.findAll();
     }

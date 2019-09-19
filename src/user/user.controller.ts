@@ -17,6 +17,7 @@ import {
     ApiBearerAuth,
     ApiBadRequestResponse,
     ApiOkResponse,
+    ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { UserResponseDto } from './dto/user-response.dto';
@@ -25,6 +26,7 @@ import { ApiResponseDto } from '../utils/dto/api-response.dto';
 @Controller('user')
 @ApiUseTags('user')
 @ApiBearerAuth()
+@ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
