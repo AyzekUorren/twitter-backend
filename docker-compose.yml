@@ -9,8 +9,7 @@ services:
     volumes:
       - ./data:/data/db
     restart: always
-    networks:
-      - backend
+    network_mode: bridge
 
   twitter:
     container_name: twitter-backend
@@ -20,6 +19,12 @@ services:
     build: .
     ports:
       - "3000:3000"
+    network_mode: bridge
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/twitter-backend --quiet 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
     links:
       - mongo
     environment:
@@ -27,9 +32,4 @@ services:
       API_PREFIX: v1
       MONGO_URL: mongodb://mongo/twitter-backend
       JWT_SECRET: test
-    networks:
-      - backend
-
-networks:
-  backend:
-    driver: "bridge"
+    restart: always
